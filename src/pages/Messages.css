@@ -1,0 +1,140 @@
+:root {
+  --green-primary: #05b859;
+  --green-dark: #587807;
+  --gold-highlight: #facc15;
+  --gray-dark: #1f2937;
+  --gray-deep: #111827;
+}
+
+/* Overall layout */
+.messages-container {
+  display: flex;
+  height: 500px;
+  background-color: var(--gray-dark);
+  color: white;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Sidebar */
+.user-list {
+  width: 250px;
+  background-color: var(--gray-deep);
+  border-right: 1px solid #333;
+  padding: 15px;
+}
+
+.user-list h3 {
+  margin-bottom: 10px;
+  color: var(--gold-highlight);
+}
+
+.user-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.user-list li {
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 6px;
+  background-color: #2a2a2a;
+  transition: background 0.3s;
+}
+
+.user-list li:hover,
+.user-list li.active {
+  background-color: var(--green-primary);
+  color: white;
+}
+
+/* Chat section */
+.chat-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+}
+
+.chat-section h3 {
+  margin-bottom: 10px;
+  color: var(--gold-highlight);
+}
+
+/* Chat window */
+.chat-window {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  background-color: #222;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+/* Messages */
+.message {
+  margin-bottom: 10px;
+  max-width: 70%;
+  padding: 10px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.sent {
+  background-color: var(--green-primary);
+  align-self: flex-end;
+  margin-left: auto;
+}
+
+.received {
+  background-color: #444;
+  align-self: flex-start;
+  margin-right: auto;
+}
+
+.msg-text {
+  font-size: 14px;
+}
+
+.msg-time {
+  font-size: 10px;
+  text-align: right;
+  opacity: 0.6;
+  margin-top: 5px;
+}
+
+/* Send box */
+.send-box {
+  display: flex;
+  gap: 10px;
+}
+
+.send-box input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background-color: #2a2a2a;
+  color: white;
+}
+
+.send-box input:focus {
+  outline: none;
+  border: 1px solid var(--green-primary);
+  box-shadow: 0 0 0 2px rgba(5, 184, 89, 0.3);
+}
+
+.send-box button {
+  background-color: var(--green-primary);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.send-box button:hover {
+  background-color: var(--green-dark);
+}

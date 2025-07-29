@@ -1,0 +1,51 @@
+.signup-container {
+  padding: 2rem;
+  text-align: center;
+}
+
+.signup-form {
+  max-width: 400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.signup-form input {
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.signup-form button {
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.signup-form button:hover {
+  background-color: #45a049;
+}
+
+/* Image Upload Section */
+.image-upload {
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.image-upload input {
+  display: block;
+  margin-top: 0.5rem;
+}
+
+.profile-preview {
+  margin-top: 1rem;
+  max-width: 100px;
+  border-radius: 5px;
+}

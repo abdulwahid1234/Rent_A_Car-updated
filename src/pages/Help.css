@@ -1,0 +1,64 @@
+:root {
+  --green-primary: #05b859;
+  --green-dark: #587807;
+  --gold-highlight: #facc15;
+  --gray-dark: #1f2937;
+  --gray-deep: #111827;
+}
+
+/* Help Page Container */
+.help-container {
+   background-image: url('./User/image.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  padding: 10px;
+  color: white;
+  /* background-color: var(--gray-dark); */
+  border-radius: 12px;
+  min-height: 100vh;
+}
+
+/* Main Heading */
+.help-container h2 {
+  color: var(--gold-highlight);
+  text-align: center;
+  font-size: 26px;
+  /* margin-bottom: 24px; */
+}
+
+/* Sections */
+.help-section {
+  margin-bottom: 10px;
+  background-color: var(--gray-dark);
+  padding: 5px 10px;
+  border-radius: 10px;
+}
+
+/* Section Headings */
+.help-section h3 {
+  color: var(--green-primary);
+  margin-bottom: 12px;
+  font-size: 18px;
+}
+
+/* List */
+.help-section ul {
+  padding-left: 20px;
+  list-style-type: disc;
+}
+
+.help-section ul li {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+/* Links */
+.help-section a {
+  color: var(--green-primary);
+  text-decoration: underline;
+}
+
+.help-section a:hover {
+  color: var(--gold-highlight);
+}

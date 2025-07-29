@@ -1,0 +1,145 @@
+:root {
+  --green-primary: #05b859;
+  --green-dark: #587807;
+  --gold-highlight: #facc15;
+  --gray-dark: #1f2937;
+  --gray-deep: #111827;
+
+  --text-color: #f3f4f6;
+  --input-border: #4b5563;
+  --disabled: #9ca3af;
+}
+
+/* Dark Mode Theme */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--gray-deep);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Login Page Container */
+.login-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--gray-deep);
+  padding: 2rem;
+}
+
+/* Form Styling */
+.form {
+  background-color: var(--gray-dark);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Heading */
+form h2 {
+  font-size: 1.5rem;
+  color: var(--gold-highlight);
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+/* Inputs and Select */
+input,
+select {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  width: 100%;
+  font-size: 1rem;
+  background-color: var(--gray-deep);
+  color: var(--text-color);
+  border: 1px solid var(--input-border);
+  transition: 0.3s;
+  box-sizing: border-box;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--green-primary);
+  box-shadow: 0 0 0 2px rgba(5, 184, 89, 0.3);
+}
+
+input::placeholder {
+  color: #9ca3af;
+}
+
+/* Password Visibility Icon */
+.relative {
+  position: relative;
+}
+.relative input {
+  padding-right: 2.5rem;
+}
+.relative .absolute {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  cursor: pointer;
+}
+
+/* Login Button */
+button[type="submit"] {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: var(--green-primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+  background-color: var(--green-dark);
+}
+
+button[type="submit"]:disabled {
+  background-color: var(--disabled);
+  cursor: not-allowed;
+}
+
+/* Theme Toggle */
+.toggle-theme {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+/* Forgot Password Link */
+.text-right {
+  text-align: right;
+}
+
+.text-right button {
+  font-size: 0.85rem;
+  color: var(--gold-highlight);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.text-right button:hover {
+  text-decoration: underline;
+}

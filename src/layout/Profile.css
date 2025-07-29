@@ -1,0 +1,194 @@
+:root {
+  --green-primary: #05b859;
+  --green-dark: #587807;
+  --gold-highlight: #facc15;
+  --gray-dark: #1f2937;
+  --gray-darker: #111827;
+  --gray-light: #f3f4f6;
+}
+
+/* Profile Container */
+.profile-container {
+  min-height: 100vh;
+  padding: 20px;
+  /* background-color: var(--gray-dark); */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+}
+
+.profile-container h2 {
+  font-size: 28px;
+  color: var(--gold-highlight);
+  margin-bottom: 20px;
+}
+
+/* Card */
+.profile-card {
+  width: 100%;
+  max-width: 760px;
+  /* background-color: #1f2937; */
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Avatar */
+.profile-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--gold-highlight);
+  display: block;
+  margin: 0 auto 20px auto;
+}
+
+/* Fields */
+.profile-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.profile-field label {
+  font-size: 14px;
+  color: #cbd5e1;
+  font-weight: 600;
+}
+
+.profile-field p,
+.profile-field input {
+  padding: 10px;
+  font-size: 15px;
+  border-radius: 6px;
+}
+
+.profile-field p {
+  background-color: #374151;
+  color: white;
+}
+
+.profile-field input {
+  background-color: #111827;
+  color: white;
+  border: 1px solid #4b5563;
+  outline: none;
+}
+
+.profile-field input:focus {
+  border-color: var(--green-primary);
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+/* Buttons */
+.btn-edit,
+.btn-save,
+.btn-cancel,
+.btn-password {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.btn-edit {
+  background-color: var(--green-primary);
+  color: white;
+}
+.btn-edit:hover {
+  background-color: var(--green-dark);
+}
+
+.btn-save {
+  background-color: var(--green-primary);
+  color: white;
+}
+.btn-save:hover {
+  background-color: var(--green-dark);
+}
+
+.btn-cancel {
+  background-color: #ef4444;
+  color: white;
+}
+.btn-cancel:hover {
+  background-color: #dc2626;
+}
+
+.btn-password {
+  background-color: #3b82f6;
+  color: white;
+}
+.btn-password:hover {
+  background-color: #2563eb;
+}
+
+/* Password Form */
+.change-password-form {
+  margin-top: 20px;
+  background-color: #374151;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.change-password-form h3 {
+  color: var(--gold-highlight);
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.change-password-form label {
+  font-size: 14px;
+  color: #d1d5db;
+  font-weight: 500;
+}
+
+.change-password-form input {
+  width: 100%;
+  margin-top: 4px;
+  margin-bottom: 16px;
+  padding: 10px;
+  background-color: #111827;
+  border: 1px solid #4b5563;
+  color: white;
+  border-radius: 6px;
+  outline: none;
+}
+.change-password-form input:focus {
+  border-color: var(--green-primary);
+}
+
+.password-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .profile-container {
+    padding: 16px;
+  }
+
+  .btn-edit,
+  .btn-save,
+  .btn-cancel,
+  .btn-password {
+    font-size: 13px;
+    padding: 8px 16px;
+  }
+}

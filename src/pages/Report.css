@@ -1,0 +1,121 @@
+:root {
+  --green-primary: #05b859;
+  --green-dark: #587807;
+  --gold-highlight: #facc15;
+  --gray-dark: #1a1a1a;
+  --gray-deep: #111827;
+}
+
+/* Container */
+.report-container {
+  /* background-color: var(--gray-dark); */
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Heading */
+.report-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--gold-highlight);
+}
+
+/* Controls */
+.report-controls1 {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.report-controls1 input[type="month"] {
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+  background-color: #2a2a2a;
+  color: white;
+}
+
+.report-controls1 button {
+  padding: 8px 15px;
+  background-color: var(--green-primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.report-controls1 button:hover {
+  background-color: var(--green-dark);
+}
+
+/* Summary Cards */
+.report-summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.summary-card {
+  flex: 1;
+  background-color: var(--gray-dark);
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  min-width: 200px;
+}
+
+.summary-card h4 {
+  margin-bottom: 10px;
+  color: #ccc;
+}
+
+.summary-card p {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.summary-card.blue { border-left: 4px solid #00b0f0; }
+.summary-card.green { border-left: 4px solid var(--green-primary); }
+.summary-card.red { border-left: 4px solid #ef4444; }
+.summary-card.yellow { border-left: 4px solid var(--gold-highlight); }
+
+/* Table Styling */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+  font-size: 14px;
+}
+
+.report-table th,
+.report-table td {
+  padding: 10px;
+  border: 1px solid #444;
+  text-align: center;
+}
+
+.report-table thead {
+  background-color: #222;
+  color: var(--gold-highlight);
+}
+
+.report-table tfoot {
+  background-color: #2f2f2f;
+  font-weight: bold;
+}
+
+.totals-row {
+  background-color: #3a3a3a;
+  color: var(--green-primary);
+}

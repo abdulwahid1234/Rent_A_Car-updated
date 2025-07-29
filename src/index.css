@@ -1,0 +1,71 @@
+:root {
+  --green-primary: #05b859;
+  --green-dark: #587807;
+  --gold-highlight: #facc15;
+  --gray-dark: #1f2937;
+  --gray-deep: #111827;
+  --gray-muted: #9ca3af;
+  --text-default: #f3f4f6;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--gray-deep);
+  color: var(--text-default);
+
+}
+
+/* Layout Wrapper */
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* Main Section Wrapper */
+.body-wrapper {
+  display: flex;
+  flex: 1;
+  background-color: var(--gray-deep);
+}
+
+/* Page Content Area */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  background-color: var(--gray-deep);
+  transition: margin-left 0.3s ease;
+  margin-left: 0;
+}
+
+.sidebar.open ~ .content {
+  margin-left: 240px; /* Sidebar width */
+}
+
+@media (max-width: 1024px) {
+  .sidebar.open ~ .content {
+    margin-left: 0; /* On mobile, sidebar overlays instead of pushing */
+  }
+}
+/* This will shift the content when sidebar is open */
+.layout.sidebar-open .content {
+  margin-left: 240px; /* Equal to sidebar width */
+}
+
+@media (max-width: 1024px) {
+  .layout.sidebar-open .content {
+    margin-left: 0; /* Let it overlay on smaller screens */
+  }
+}
+/* Shift content when sidebar is open */
+.layout.sidebar-open .content {
+  margin-left: 240px; /* Match Sidebar width */
+  transition: margin-left 0.3s ease;
+}
+
+@media (max-width: 1024px) {
+  .layout.sidebar-open .content {
+    margin-left: 0; /* Overlay on mobile */
+  }
+}

@@ -1,0 +1,111 @@
+:root {
+  --green-primary: #05b859;
+  --green-dark: #587807;
+  --gold-highlight: #facc15;
+  --gray-dark: #1f2937;
+  --gray-deep: #111827;
+}
+
+/* Container */
+.operator-management {
+  padding: 30px;
+  min-height: 100vh;
+  /* background-color: var(--gray-dark); */
+  color: #f9fafb;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Heading */
+.operator-management h2 {
+  font-size: 28px;
+  margin-bottom: 24px;
+  text-align: center;
+  color: var(--gold-highlight);
+}
+
+/* Add Operator Form */
+.add-form {
+  /* background-color: #2d2f45; */
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.add-form input {
+  padding: 10px 12px;
+  font-size: 15px;
+  background-color: var(--gray-dark);
+  color: white;
+  border: 1px solid #444;
+  border-radius: 6px;
+  width: 180px;
+}
+
+.add-form input:focus {
+  outline: none;
+  border-color: var(--green-primary);
+  box-shadow: 0 0 0 2px rgba(5, 184, 89, 0.3);
+}
+
+.add-form button {
+  background-color: var(--green-primary);
+  color: white;
+  padding: 10px 16px;
+  font-size: 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.add-form button:hover {
+  background-color: var(--green-dark);
+}
+
+/* Table */
+.operator-table {
+  /* background-color: #2d2f45; */
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+  overflow-x: auto;
+}
+
+.operator-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.operator-table th,
+.operator-table td {
+  border: 1px solid #3f3f5a;
+  padding: 12px 16px;
+  font-size: 15px;
+  text-align: left;
+  color: #f1f5f9;
+}
+
+.operator-table th {
+  background-color: #374151; /* gray-700 */
+  color: var(--gold-highlight);
+}
+
+/* Delete Button */
+.delete-btn {
+  background-color: #ef4444;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.delete-btn:hover {
+  background-color: #dc2626;
+}
