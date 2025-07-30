@@ -119,7 +119,10 @@ const Login = () => {
         <button type="submit" disabled={loading}>
           {loading ? "Logging in..." : "Login"}
         </button>
+        <p>For Admin: admin , admin</p>
+      <p>For Operator: Akbar, akbar</p>
       </form>
+      
     </div>
   );
 };
