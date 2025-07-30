@@ -7,22 +7,14 @@ import { FaBars, FaChevronLeft } from "react-icons/fa";
 
 const Header = ({ toggleSidebar, isSidebarOpen }) => {
   const { isAuthenticated, logout } = useContext(AuthContext);
-  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef();
 
-  useEffect(() => {
-    document.body.className = theme === "dark" ? "dark" : "";
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
-  };
-
   const username = sessionStorage.getItem("username") || "User";
-  const profileImage = sessionStorage.getItem("profileImage") || `https://ui-avatars.com/api/?name=${username}`;
+  const profileImage =
+    sessionStorage.getItem("profileImage") ||
+    `https://ui-avatars.com/api/?name=${username}`;
   const role = sessionStorage.getItem("role") || "operator";
 
   const handleLogout = () => {
@@ -31,63 +23,65 @@ const Header = ({ toggleSidebar, isSidebarOpen }) => {
     navigate("/login");
   };
 
+  // Handle dropdown close on outside click
   useEffect(() => {
-    const handleClickOutside = (e) => {
+    function handleClickOutside(e) {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setShowDropdown(false);
       }
-    };
+    }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
-    <header className="header-container">
-      {/* Sidebar Toggle Button */}
+    <header className="main-header">
       <button
-        className="menu-toggle"
+        className="sidebar-toggle"
         onClick={toggleSidebar}
         aria-label={isSidebarOpen ? "Close sidebar" : "Open sidebar"}
       >
         {isSidebarOpen ? <FaChevronLeft /> : <FaBars />}
       </button>
-      <marquee>
-        <h1 style={{ flex: 1, textAlign: "center" }}>Bismillah RAC</h1>
-      </marquee>
-      
-      <div className="header-right">
+
+      <div className="brand-title">
+        Bismillah RAC
+      </div>
+
+      <nav className="header-actions">
         {isAuthenticated ? (
-          <div className="dropdown-wrapper" ref={dropdownRef}>
+          <div className="profile-area" ref={dropdownRef}>
             <img
               src={profileImage}
               alt="Profile"
-              className="profile-avatar"
-              onClick={() => setShowDropdown(!showDropdown)}
+              className="profile-img"
+              onClick={() => setShowDropdown((prev) => !prev)}
             />
             {showDropdown && (
-              <div className="dropdown">
-                <div>
-                  <p>{username}</p>
-                  <p className="role">{role}</p>
+              <div className="profile-dropdown">
+                <div className="dropdown-user">
+                  <p className="dropdown-username">{username}</p>
+                  <p className="dropdown-role">{role}</p>
                 </div>
-                <Link to="/profile">My Profile</Link>
-                <Link to="/change-password">Change Password</Link>
-                <button onClick={handleLogout}>Sign Out</button>
+                <Link to="/profile" className="dropdown-link">
+                  My Profile
+                </Link>
+                <Link to="/change-password" className="dropdown-link">
+                  Change Password
+                </Link>
+                <button className="dropdown-link logout-btn" onClick={handleLogout}>
+                  Sign Out
+                </button>
               </div>
             )}
           </div>
         ) : (
-          <>
-            <Link to="/login" className="auth-btn login">Login</Link>
-            <Link to="/signup" className="auth-btn signup">Sign Up</Link>
-          </>
+          <div className="auth-btns">
+            <Link to="/login" className="btn header-login">Login</Link>
+            <Link to="/signup" className="btn header-signup">Sign Up</Link>
+          </div>
         )}
-        {/* <button onClick={toggleTheme} className="theme-toggle-btn">
-  {theme === "dark" ? "🌞 Light" : "🌙 Dark"}
-</button> */}
-
-      </div>
-      
+      </nav>
     </header>
   );
 };

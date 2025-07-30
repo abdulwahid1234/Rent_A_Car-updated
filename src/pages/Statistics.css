@@ -1,85 +1,97 @@
-:root {
-  --green-primary: #05b859;
-  --green-dark: #587807;
-  --gold-highlight: #facc15;
-  --gray-dark: #1f2937;
-  --gray-deep: #111827;
-  --gray-muted: #9ca3af;
-  --border-blue: #3b82f6;
-  --border-red: #ef4444;
-}
-
-/* Page Container */
 .statistics-container {
-  padding: 20px;
-  background-color: var(--gray-deep);
-  color: white;
-  border-radius: 12px;
+  width: 100%;
+  margin: 44px 12px;
+  padding: 32px 20px;
+  background: rgba(25, 32, 66, 0.97); /* matches --card-bg */
+  border-radius: 20px;
+  color: #f8faff; /* matches --text-main */
+  box-shadow: 0 8px 40px #14182733, 0 2px 8px #2787f533;
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
   font-family: 'Segoe UI', sans-serif;
+  animation: fadeInUp 0.43s;
+  min-height: 560px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
-/* Page Heading */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(32px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+
 .statistics-container h2 {
   text-align: center;
-  color: var(--gold-highlight);
-  margin-bottom: 25px;
+  color: #61aaff; /* matches --header-blue */
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 32px;
+  text-shadow: 0 2px 10px #61aaff44;
+  letter-spacing: 1.3px;
 }
 
 /* Cards Layout */
 .stats-cards {
   display: flex;
-  gap: 20px;
+  gap: 18px;
   flex-wrap: wrap;
-  margin-bottom: 30px;
+  margin-bottom: 32px;
 }
 
 .stat-card {
   flex: 1;
-  min-width: 200px;
-  padding: 20px;
-  background-color: var(--gray-dark);
-  border-radius: 12px;
+  min-width: 195px;
+  padding: 24px 18px;
+  background: rgba(22, 29, 54, 0.98);
+  border-radius: 14px;
   text-align: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s;
+  box-shadow: 0 4px 18px #19e3b911;
+  transition: background 0.18s, transform 0.18s;
+  position: relative;
+  border-left: 6px solid #61aaff;
 }
 
+.stat-card.blue { border-left-color: #61aaff;}
+.stat-card.green { border-left-color: #05b859;}
+.stat-card.yellow { border-left-color: #facc15;}
+.stat-card.red { border-left-color: #ea4747;}
+
 .stat-card:hover {
-  transform: translateY(-4px);
+  background: rgba(31,40,77,0.98);
+  transform: translateY(-4px) scale(1.01);
 }
 
 .stat-card h4 {
-  margin-bottom: 10px;
-  color: var(--gray-muted);
-  font-size: 14px;
-  font-weight: 500;
+  margin-bottom: 12px;
+  color: #9ca3af;
+  font-size: 1.08rem;
+  font-weight: 700;
+  letter-spacing: 0.4px;
 }
 
 .stat-card p {
-  font-size: 24px;
+  font-size: 2.25rem;
   font-weight: bold;
-  color: white;
+  color: #61aaff;
+  margin: 0;
+  text-shadow: 0 2px 12px #39a8ff33;
 }
-
-/* Left Border Color Indicators */
-.stat-card.blue { border-left: 5px solid var(--border-blue); }
-.stat-card.green { border-left: 5px solid var(--green-primary); }
-.stat-card.yellow { border-left: 5px solid var(--gold-highlight); }
-.stat-card.red { border-left: 5px solid var(--border-red); }
 
 /* Chart Section */
 .chart-section {
-  background-color: var(--gray-dark);
-  border-radius: 12px;
-  padding: 20px;
-  margin-top: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  background: rgba(22, 29, 54, 0.96);
+  border-radius: 14px;
+  padding: 24px 16px;
+  margin-top: 12px;
+  box-shadow: 0 4px 13px rgba(0,0,0,0.13);
 }
 
 .chart-section h3 {
-  margin-bottom: 10px;
-  color: var(--green-primary);
-  font-size: 18px;
+  margin-bottom: 13px;
+  color: #05b859;
+  font-size: 1.14rem;
+  font-weight: 700;
 }
 
 .chart-placeholder {
@@ -87,8 +99,25 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  color: var(--gray-muted);
-  background-color: var(--gray-deep);
+  color: #9ca3af;
+  background: #111827;
   border-radius: 8px;
-  border: 1px dashed #374151;
+  border: 1.7px dashed #374151;
+  font-size: 1.22rem;
+  font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 920px) {
+  .statistics-container { max-width: 98vw; padding: 18px 3vw; }
+  .stats-cards { flex-direction: column; gap: 14px;}
+  .stat-card { min-width: 120px; padding: 18px 7px;}
+  .chart-section { padding: 14px 7px; }
+}
+
+@media (max-width: 480px) {
+  .statistics-container { padding: 7px 0.5vw; margin: 12px 2px;}
+  .stats-cards { gap: 10px; }
+  .stat-card { padding: 10px 4px; font-size: 1rem;}
+  .chart-placeholder { font-size: 1rem; padding: 6px;}
 }

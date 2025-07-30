@@ -1,111 +1,192 @@
 :root {
-  --green-primary: #05b859;
-  --green-dark: #587807;
+  --bg-gradient: linear-gradient(120deg, #141827 65%, #202c4a 100%);
+  --glass-bg: rgba(22, 29, 54, 0.93);
+  --card-bg: rgba(29, 38, 77, 0.97);
+  --card-hover-bg: rgba(31,40,77,0.98);
+  --header-blue: #61aaff;
+  --accent: #19e3b9;
+  --accent2: #39a8ff;
+  --accent-hover: #25ffcb;
+  --danger: #ea4747;
+  --text-main: #f8fafc;
+  --input-bg: #21294a;
+  --input-border: #2b3555;
+  --input-focus: #19e3b9;
   --gold-highlight: #facc15;
-  --gray-dark: #1f2937;
-  --gray-deep: #111827;
+  --green-primary: #19e3b9;
+  --green-dark: #3f7c1a;
+  --shadow: 0 8px 48px #14182733, 0 2px 8px #2787f533;
 }
 
-/* Container */
-.operator-management {
-  padding: 30px;
+body, html {
   min-height: 100vh;
-  /* background-color: var(--gray-dark); */
-  color: #f9fafb;
+  margin: 0;
+  padding: 0;
+  background: var(--bg-gradient);
   font-family: 'Segoe UI', sans-serif;
+}
+
+/* Fullpage Center Wrapper */
+.fullpage-glass-bg {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background: var(--bg-gradient);
+}
+
+/* Main Glass Container */
+.operator-management {
+  background: var(--glass-bg);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(7px);
+  border-radius: 20px;
+  min-width: 340px;
+  width: 100%;
+  /* max-width: 820px; */
+  margin: 44px 12px;
+  color: var(--text-main);
+  position: relative;
+  padding: 36px 28px;
+  animation: fadeInUp 0.45s;
 }
 
 /* Heading */
 .operator-management h2 {
-  font-size: 28px;
-  margin-bottom: 24px;
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 27px;
   text-align: center;
-  color: var(--gold-highlight);
+  color: var(--header-blue);
+  text-shadow: 0 2px 12px #61aaff44;
+  letter-spacing: 1.3px;
 }
 
 /* Add Operator Form */
 .add-form {
-  /* background-color: #2d2f45; */
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 30px;
+  background: var(--card-bg);
+  padding: 24px 18px 19px 18px;
+  border-radius: 14px;
+  margin-bottom: 34px;
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 16px;
   justify-content: center;
+  box-shadow: 0 1px 12px #1f293730;
+  transition: background 0.22s;
+}
+.add-form:hover {
+  background: var(--card-hover-bg);
 }
 
 .add-form input {
-  padding: 10px 12px;
-  font-size: 15px;
-  background-color: var(--gray-dark);
-  color: white;
-  border: 1px solid #444;
-  border-radius: 6px;
-  width: 180px;
-}
-
-.add-form input:focus {
+  padding: 12px 13px;
+  font-size: 1.01rem;
+  background: var(--input-bg);
+  color: var(--text-main);
+  border: 1.7px solid var(--input-border);
+  border-radius: 8px;
+  width: 190px;
   outline: none;
-  border-color: var(--green-primary);
-  box-shadow: 0 0 0 2px rgba(5, 184, 89, 0.3);
+  transition: border-color 0.17s, box-shadow 0.17s;
+  font-weight: 500;
+}
+.add-form input:focus {
+  border-color: var(--input-focus);
+  box-shadow: 0 0 0 2.2px #19e3b930, 0 1px 10px #19e3b91a;
 }
 
+/* Button Style - matches dashboard gradient */
 .add-form button {
-  background-color: var(--green-primary);
-  color: white;
-  padding: 10px 16px;
-  font-size: 15px;
+  background: linear-gradient(90deg, var(--accent2) 12%, var(--accent) 95%);
+  color: #141827;
+  padding: 12px 25px;
   border: none;
-  border-radius: 6px;
+  border-radius: 11px;
+  font-size: 1.09rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: background-color 0.2s;
+  letter-spacing: 1.09px;
+  box-shadow: 0 2px 12px #19e3b922;
+  margin-left: 10px;
+  transition: background 0.19s, color 0.13s, transform 0.12s;
 }
-
 .add-form button:hover {
-  background-color: var(--green-dark);
+  background: linear-gradient(90deg, var(--accent-hover) 0%, var(--header-blue) 120%);
+  color: #1e293b;
+  transform: translateY(-2px) scale(1.01);
 }
 
-/* Table */
+/* Operator Table */
 .operator-table {
-  /* background-color: #2d2f45; */
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+  background: var(--card-bg);
+  padding: 16px 7px;
+  border-radius: 14px;
+  box-shadow: 0 6px 22px #19e3b914;
   overflow-x: auto;
+  transition: background 0.22s;
 }
-
+.operator-table:hover {
+  background: var(--card-hover-bg);
+}
 .operator-table table {
   width: 100%;
   border-collapse: collapse;
+  font-size: 1.02rem;
+  background: var(--card-bg);
+  border-radius: 10px;
 }
-
 .operator-table th,
 .operator-table td {
-  border: 1px solid #3f3f5a;
-  padding: 12px 16px;
-  font-size: 15px;
+  border-bottom: 1.3px solid #232c46;
+  padding: 13px 12px;
   text-align: left;
-  color: #f1f5f9;
 }
-
 .operator-table th {
-  background-color: #374151; /* gray-700 */
+  background: #151a29;
   color: var(--gold-highlight);
+  font-weight: 800;
+  font-size: 1.10rem;
+  letter-spacing: 0.6px;
+  border-bottom: 2px solid var(--green-primary);
+  text-shadow: 0 2px 12px #facc1544;
+}
+.operator-table td {
+  color: var(--text-main);
+  font-weight: 500;
 }
 
-/* Delete Button */
+/* Delete Button (match dashboard destructive) */
 .delete-btn {
-  background-color: #ef4444;
+  background: var(--danger);
   color: white;
-  padding: 6px 12px;
+  padding: 8px 15px;
   border: none;
-  border-radius: 6px;
+  border-radius: 7px;
+  font-size: 1.05rem;
+  font-weight: 700;
   cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s;
+  transition: background 0.17s;
+  margin-top: 2px;
+}
+.delete-btn:hover {
+  background: #bc2222;
 }
 
-.delete-btn:hover {
-  background-color: #dc2626;
+/* Responsive */
+@media (max-width: 900px) {
+  .operator-management { max-width: 99vw; margin: 28px 4vw; padding: 20px 6px;}
+  .add-form input { width: 120px; }
+  .operator-table th, .operator-table td { font-size: 0.97rem; padding: 9px 7px;}
+}
+@media (max-width: 600px) {
+  .operator-management { padding: 7px 1vw;}
+  .add-form input { width: 90px; font-size: 12.2px;}
+  .add-form button { font-size: 13px; }
+  .operator-table th, .operator-table td { font-size: 0.91rem; padding: 5px 3px;}
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(32px);}
+  to { opacity: 1; transform: translateY(0);}
 }
