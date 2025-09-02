@@ -151,8 +151,8 @@ const Login = () => {
           {loading ? "Logging in..." : "Login"}
         </button>
 
-        <p>For Admin: <strong>admin</strong> , <strong>admin</strong></p>
-        <p>For Operator: <strong>Akbar</strong> , <strong>akbar</strong></p>
+        <p style={{color:"black"}}>For Admin: <strong>admin</strong> , <strong>admin</strong></p>
+        <p style={{color:"black"}}>For Operator: <strong>Akbar</strong> , <strong>akbar</strong></p>
       </form>
     </div>
   );
