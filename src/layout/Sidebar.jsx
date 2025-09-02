@@ -7,17 +7,20 @@ import {
   FaUserCircle, FaChevronDown, FaChevronUp, FaChevronLeft
 } from "react-icons/fa";
 import "./Sidebar.css";
+import Customers from './../pages/Customers';
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const { isAuthenticated } = useContext(AuthContext);
   const role = sessionStorage.getItem("role");
-
   const [showRegistration, setShowRegistration] = useState(false);
-
   const toggleRegistrationMenu = () => setShowRegistration(v => !v);
 
   return (
-    <aside className={`custom-sidebar ${isOpen ? "open" : ""}`}>
+    <aside
+      className={`custom-sidebar ${isOpen ? "open" : ""}`}
+      aria-hidden={!isOpen}               // hidden to SR on small screens when closed
+      aria-label="Primary"
+    >
       <button
         className="sidebar-close-btn"
         onClick={toggleSidebar}
@@ -26,9 +29,11 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       >
         <FaChevronLeft />
       </button>
+
       <div className="sidebar-logo">
         <span className="sidebar-logo-text">Bismillah RAC</span>
       </div>
+
       <nav className="sidebar-nav">
         <NavLink to="/" className="sidebar-link">
           <FaTachometerAlt />
@@ -41,7 +46,8 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 
         {role === "admin" && (
           <>
-            <button className="sidebar-link collapsible"
+            <button
+              className="sidebar-link collapsible"
               onClick={toggleRegistrationMenu}
               aria-expanded={showRegistration}
               tabIndex={isOpen ? 0 : -1}
@@ -60,7 +66,11 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
               <NavLink to="/drivers" className="sidebar-link sub-link">
                 <FaUserFriends /><span>Drivers</span>
               </NavLink>
+              <NavLink to="/customer" className="sidebar-link sub-link">
+                <FaCarSide /><span>Customers Register</span>
+              </NavLink>
             </div>
+
             <NavLink to="/transactions" className="sidebar-link">
               <FaMoneyCheckAlt />
               <span className="label">Transactions</span>

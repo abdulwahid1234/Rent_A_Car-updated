@@ -1,88 +1,100 @@
-import React, { useState } from 'react';
-import './UserLogin.css';
+import React, { useState } from "react";
+import "./UserLogin.css";
 
-const UserSignUp = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    image: null, // store the uploaded image
+const UserLogin = () => {
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleInputChange = (e) => {
+  const onChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setForm((f) => ({ ...f, [name]: value }));
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setFormData({
-        ...formData,
-        image: URL.createObjectURL(file), // Show the selected image
-      });
-    }
-  };
-
-  const handleSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    if (formData.name && formData.email && formData.password && formData.image) {
-      // Here you would handle the user signup, e.g., send the data to a server
-      console.log('User signed up:', formData);
-      // For now, we will just reset the form
-      setFormData({ name: '', email: '', password: '', image: null });
-      alert('User signed up successfully!');
-    } else {
-      alert('Please fill in all fields and upload an image!');
+    if (!form.email || !form.password) {
+      alert("Please fill in both email and password.");
+      return;
+    }
+    try {
+      setSubmitting(true);
+
+      // Simulated login
+      // In a real app, call your API here and handle tokens/redirects.
+      // Example: await axios.post('/api/login', form);
+      sessionStorage.setItem("email", form.email);
+      sessionStorage.setItem("username", form.email.split("@")[0] || "User");
+      sessionStorage.setItem("role", "operator"); // or set based on API response
+
+      alert("Logged in successfully!");
+      // navigate('/dashboard')  <-- if using React Router
+    } catch (err) {
+      alert("Login failed. Please try again.");
+    } finally {
+      setSubmitting(false);
     }
   };
 
   return (
-    <div className="signup-container">
-      <h2>Login</h2>
-      <form className="signup-form" onSubmit={handleSubmit}>
-        {/* <input
-          type="text"
-          name="name"
-          value={formData.name}
-          placeholder="Full Name"
-          onChange={handleInputChange}
-        /> */}
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          placeholder="Email Address"
-          onChange={handleInputChange}
-        />
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          placeholder="Password"
-          onChange={handleInputChange}
-        />
+    <div className="login-container">
+      <div className="login-card">
+        <h2>Login</h2>
+        <p className="subtitle">
+          Welcome back! Enter your credentials to access your dashboard.
+        </p>
 
-        {/* Image Upload Section */}
-        {/* <div className="image-upload">
-          <label htmlFor="image-upload">Upload Profile Image</label>
+        <form className="login-form" onSubmit={onSubmit}>
+          <label>Email</label>
           <input
-            type="file"
-            id="image-upload"
-            name="image"
-            accept="image/*"
-            onChange={handleImageChange}
+            type="email"
+            name="email"
+            value={form.email}
+            placeholder="you@example.com"
+            onChange={onChange}
+            autoComplete="email"
           />
-          {formData.image && <img src={formData.image} alt="Profile Preview" className="profile-preview" />}
-        </div> */}
 
-        <button type="submit">Login</button>
-      </form>
+          <label>Password</label>
+          <div className="password-wrap">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              value={form.password}
+              placeholder="••••••••"
+              onChange={onChange}
+              autoComplete="current-password"
+            />
+            <button
+              type="button"
+              className="toggle-visibility"
+              onClick={() => setShowPassword((s) => !s)}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? "🙈" : "👁️"}
+            </button>
+          </div>
+
+          <button type="submit" disabled={submitting}>
+            {submitting ? "Signing in..." : "Login"}
+          </button>
+        </form>
+
+        <div className="helper-row">
+          <a href="#forgot" onClick={(e) => e.preventDefault()}>
+            Forgot password?
+          </a>
+          <span>•</span>
+          <a href="#signup" onClick={(e) => e.preventDefault()}>
+            Create account
+          </a>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default UserSignUp;
+export default UserLogin;

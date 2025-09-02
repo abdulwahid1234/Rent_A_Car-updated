@@ -327,7 +327,7 @@ const VehicleBooking = () => {
                 <form onSubmit={handleBookingSubmit} className="booking-form">
                   <div className="form-group">
                     <label className="form-label">Name *</label>
-                    <div className="form-row">
+                    
                       <div className="form-field">
                         <input
                           type="text"
@@ -338,18 +338,19 @@ const VehicleBooking = () => {
                           className={`form-input ${errors.firstName ? "error" : ""}`}
                         />
                         {errors.firstName && <span className="error-text">{errors.firstName}</span>}
-                      </div>
-                      <div className="form-field">
-                        <input
-                          type="text"
-                          name="lastName"
-                          placeholder="Last Name"
-                          value={bookingData.lastName}
-                          onChange={handleInputChange}
-                          className={`form-input ${errors.lastName ? "error" : ""}`}
-                        />
-                        {errors.lastName && <span className="error-text">{errors.lastName}</span>}
-                      </div>
+                      
+                          <div className="form-field">
+                            <label className="form-label">Last Name *</label>
+                            <input
+                              type="text"
+                              name="lastName"
+                              placeholder="Last Name"
+                              value={bookingData.lastName}
+                              onChange={handleInputChange}
+                              className={`form-input ${errors.lastName ? "error" : ""}`}
+                            />
+                            {errors.lastName && <span className="error-text">{errors.lastName}</span>}
+                          </div>
                     </div>
                   </div>
 

@@ -123,7 +123,7 @@ body {
   gap: 8px;
 }
 
-.search-input {
+.search-input1 {
   padding: 8px 12px;
   border: none;
   border-radius: 4px;
@@ -132,7 +132,7 @@ body {
   width: 160px;
 }
 
-.search-input::placeholder {
+.search-input1::placeholder {
   color: rgba(255, 255, 255, 0.7);
 }
 

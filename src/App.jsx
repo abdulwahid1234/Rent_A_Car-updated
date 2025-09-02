@@ -24,6 +24,7 @@ import { Toaster } from "react-hot-toast";
 import BookingLayout from "./pages/User/BookingLayout.jsx";
 import UserSignUp from "./pages/User/UserSignUp/UserSignUp.jsx";
 import UserLogin from './pages/User/UserLogin/UserLogin.jsx'
+import Customers from "./pages/Customers.jsx";
 //import "./dark-mode.css";  // After importing index.css
 
 const App = () => {
@@ -49,6 +50,7 @@ const App = () => {
           <Route path="bookings" element={<BookingsPage />} />
           <Route path="register-car" element={<CarOwnerRegistration />} />
           <Route path="drivers" element={<DriversPage />} />
+          <Route path="customer" element={<Customers/>} />
           <Route path="cars" element={<Cars />} />
           <Route path="/operator-management" element={<OperatorManagement />} />
           <Route path="messages" element={<MessagesPage />} />

@@ -7,7 +7,7 @@ const TaxiLanding = () => {
   return (
     <div className="landing-container">
       {/* Header */}
-      <header className="header">
+      <header className="header1">
         <div className="logo-container1">
           <div className="logo1">
             <span className="logo-text1">LOGO</span>

@@ -1,7 +1,30 @@
-import React from 'react';
-import './Help.css';
+import React, { useState } from "react";
+import "./Help.css";
 
 const HelpPage = () => {
+  const [search, setSearch] = useState("");
+
+  const faqs = [
+    {
+      q: "How do I add a new booking?",
+      a: "Go to the Bookings page and click 'Add Booking' at the top right."
+    },
+    {
+      q: "Can I edit driver details?",
+      a: "Yes, head to the Drivers section and click the 'Edit' button next to a driver."
+    },
+    {
+      q: "Where can I download monthly reports?",
+      a: "Go to the Report section and click 'Export PDF' or 'Export Excel'."
+    }
+  ];
+
+  const filteredFaqs = faqs.filter(
+    (f) =>
+      f.q.toLowerCase().includes(search.toLowerCase()) ||
+      f.a.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <div className="help-container">
       <h2>Need Help? We’re Here for You!</h2>
@@ -16,19 +39,42 @@ const HelpPage = () => {
 
       <section className="help-section">
         <h3>❓ Frequently Asked Questions</h3>
+        <input
+          type="text"
+          className="faq-search"
+          placeholder="Search FAQs..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
         <ul>
-          <li><strong>Q:</strong> How do I add a new booking?<br /><strong>A:</strong> Go to the Bookings page and click "Add Booking" on the top right.</li>
-          <li><strong>Q:</strong> Can I edit driver details?<br /><strong>A:</strong> Yes, head to the Drivers section and click the "Edit" button next to a driver.</li>
-          <li><strong>Q:</strong> Where can I download monthly reports?<br /><strong>A:</strong> Go to the Report section and click "Export PDF" or "Export Excel".</li>
+          {filteredFaqs.map((f, i) => (
+            <li key={i}>
+              <strong>Q:</strong> {f.q}
+              <br />
+              <strong>A:</strong> {f.a}
+            </li>
+          ))}
+          {filteredFaqs.length === 0 && (
+            <p className="muted">No results found.</p>
+          )}
         </ul>
       </section>
 
       <section className="help-section">
         <h3>📞 Contact Support</h3>
-        <p>If you're experiencing issues, you can reach out:</p>
         <ul>
-          <li>Email: <a href="mailto:support@bismillahrentacar.com">support@bismillahrentacar.com</a></li>
-          <li>WhatsApp: <a href="https://wa.me/923001234567" target="_blank" rel="noreferrer">+92 300 1234567</a></li>
+          <li>
+            Email:{" "}
+            <a href="mailto:support@bismillahrentacar.com">
+              support@bismillahrentacar.com
+            </a>
+          </li>
+          <li>
+            WhatsApp:{" "}
+            <a href="https://wa.me/923001234567" target="_blank" rel="noreferrer">
+              +92 300 1234567
+            </a>
+          </li>
           <li>Phone: +92 51 1234567</li>
         </ul>
       </section>

@@ -1,192 +1,192 @@
-:root {
-  --bg-gradient: linear-gradient(120deg, #141827 65%, #202c4a 100%);
-  --glass-bg: rgba(22, 29, 54, 0.93);
-  --card-bg: rgba(29, 38, 77, 0.97);
-  --card-hover-bg: rgba(31,40,77,0.98);
-  --header-blue: #61aaff;
-  --accent: #19e3b9;
-  --accent2: #39a8ff;
-  --accent-hover: #25ffcb;
-  --danger: #ea4747;
-  --text-main: #f8fafc;
-  --input-bg: #21294a;
-  --input-border: #2b3555;
-  --input-focus: #19e3b9;
-  --gold-highlight: #facc15;
-  --green-primary: #19e3b9;
-  --green-dark: #3f7c1a;
-  --shadow: 0 8px 48px #14182733, 0 2px 8px #2787f533;
-}
+/* ===== Operator Management (Light Theme, unified with index.css) ===== */
 
-body, html {
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-  background: var(--bg-gradient);
-  font-family: 'Segoe UI', sans-serif;
-}
-
-/* Fullpage Center Wrapper */
-.fullpage-glass-bg {
-  min-height: 100vh;
-  width: 100vw;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  background: var(--bg-gradient);
-}
-
-/* Main Glass Container */
+/* Container */
 .operator-management {
-  background: var(--glass-bg);
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(7px);
-  border-radius: 20px;
-  min-width: 340px;
-  width: 100%;
-  /* max-width: 820px; */
-  margin: 44px 12px;
-  color: var(--text-main);
-  position: relative;
-  padding: 36px 28px;
-  animation: fadeInUp 0.45s;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    color: var(--text);
+    width: 80vw;
+    margin: 20px;
+    padding: 20px;
+    font-family: var(--font);
 }
 
-/* Heading */
+/* Header */
+.header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
 .operator-management h2 {
-  font-size: 2rem;
+  font-size: 1.4rem;
   font-weight: 800;
-  margin-bottom: 27px;
-  text-align: center;
-  color: var(--header-blue);
-  text-shadow: 0 2px 12px #61aaff44;
-  letter-spacing: 1.3px;
+  margin: 0;
+  letter-spacing: 0.2px;
+}
+.count-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #f1f5f9;
+  border: 1px solid var(--border);
+  font-size: 0.85rem;
+  color: var(--muted);
 }
 
-/* Add Operator Form */
+/* ===== Add Operator Form ===== */
 .add-form {
-  background: var(--card-bg);
-  padding: 24px 18px 19px 18px;
-  border-radius: 14px;
-  margin-bottom: 34px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  padding: 16px;
+  margin: 16px 0 20px;
+
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
-  justify-content: center;
-  box-shadow: 0 1px 12px #1f293730;
-  transition: background 0.22s;
-}
-.add-form:hover {
-  background: var(--card-hover-bg);
+  gap: 12px;
+  align-items: flex-start;
 }
 
+/* Inputs follow global input style */
 .add-form input {
-  padding: 12px 13px;
-  font-size: 1.01rem;
-  background: var(--input-bg);
-  color: var(--text-main);
-  border: 1.7px solid var(--input-border);
-  border-radius: 8px;
-  width: 190px;
-  outline: none;
-  transition: border-color 0.17s, box-shadow 0.17s;
-  font-weight: 500;
+  width: clamp(180px, 24vw, 220px);
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font: inherit;
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+  transition: border-color 120ms, box-shadow 120ms;
 }
 .add-form input:focus {
-  border-color: var(--input-focus);
-  box-shadow: 0 0 0 2.2px #19e3b930, 0 1px 10px #19e3b91a;
+  outline: none;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 4px var(--ring);
 }
 
-/* Button Style - matches dashboard gradient */
-.add-form button {
-  background: linear-gradient(90deg, var(--accent2) 12%, var(--accent) 95%);
-  color: #141827;
-  padding: 12px 25px;
-  border: none;
-  border-radius: 11px;
-  font-size: 1.09rem;
+/* Add button uses unified .btn feel via CSS vars */
+.add-btn {
+  --btn-bg: var(--brand);
+  --btn-bg-hover: var(--brand-600);
+  --btn-text: #fff;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: var(--btn-bg);
+  color: var(--btn-text);
   font-weight: 700;
+  letter-spacing: 0.2px;
   cursor: pointer;
-  letter-spacing: 1.09px;
-  box-shadow: 0 2px 12px #19e3b922;
-  margin-left: 10px;
-  transition: background 0.19s, color 0.13s, transform 0.12s;
+  box-shadow: var(--shadow-sm);
+  transition: background 160ms, box-shadow 160ms, transform 80ms, opacity 120ms;
 }
-.add-form button:hover {
-  background: linear-gradient(90deg, var(--accent-hover) 0%, var(--header-blue) 120%);
-  color: #1e293b;
-  transform: translateY(-2px) scale(1.01);
+.add-btn:hover {
+  background: var(--btn-bg-hover);
+  box-shadow: var(--shadow-md);
+}
+.add-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--ring);
+}
+.add-btn[disabled],
+.add-btn[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: var(--shadow-sm);
 }
 
-/* Operator Table */
+/* ===== Operators Table ===== */
 .operator-table {
-  background: var(--card-bg);
-  padding: 16px 7px;
-  border-radius: 14px;
-  box-shadow: 0 6px 22px #19e3b914;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  padding: 10px;
   overflow-x: auto;
-  transition: background 0.22s;
 }
-.operator-table:hover {
-  background: var(--card-hover-bg);
-}
+
 .operator-table table {
   width: 100%;
-  border-collapse: collapse;
-  font-size: 1.02rem;
-  background: var(--card-bg);
-  border-radius: 10px;
-}
-.operator-table th,
-.operator-table td {
-  border-bottom: 1.3px solid #232c46;
-  padding: 13px 12px;
-  text-align: left;
-}
-.operator-table th {
-  background: #151a29;
-  color: var(--gold-highlight);
-  font-weight: 800;
-  font-size: 1.10rem;
-  letter-spacing: 0.6px;
-  border-bottom: 2px solid var(--green-primary);
-  text-shadow: 0 2px 12px #facc1544;
-}
-.operator-table td {
-  color: var(--text-main);
-  font-weight: 500;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--panel);
 }
 
-/* Delete Button (match dashboard destructive) */
+.operator-table thead th {
+  text-align: left;
+  padding: 12px 14px;
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  background: #f8fafc;
+  border-bottom: 1px solid var(--border);
+}
+
+.operator-table tbody td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+.operator-table tbody tr:hover {
+  background: #fafcff;
+}
+
+.empty-row {
+  text-align: center;
+  padding: 20px;
+  color: var(--muted);
+}
+
+/* Delete button (destructive variant) */
 .delete-btn {
-  background: var(--danger);
-  color: white;
-  padding: 8px 15px;
-  border: none;
-  border-radius: 7px;
-  font-size: 1.05rem;
+  --btn-bg: var(--danger);
+  --btn-bg-hover: #c93a3a;
+  --btn-text: #fff;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: var(--btn-bg);
+  color: var(--btn-text);
   font-weight: 700;
   cursor: pointer;
-  transition: background 0.17s;
-  margin-top: 2px;
+  box-shadow: var(--shadow-sm);
+  transition: background 160ms, box-shadow 160ms, transform 80ms;
 }
 .delete-btn:hover {
-  background: #bc2222;
+  background: var(--btn-bg-hover);
+  box-shadow: var(--shadow-md);
 }
+.delete-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--ring);
+}
+
+/* ===== Utility mappings used in JSX ===== */
+.text-red-500 { color: var(--danger); }
+.p-4 { padding: 16px; }
 
 /* Responsive */
 @media (max-width: 900px) {
-  .operator-management { max-width: 99vw; margin: 28px 4vw; padding: 20px 6px;}
-  .add-form input { width: 120px; }
-  .operator-table th, .operator-table td { font-size: 0.97rem; padding: 9px 7px;}
+  .add-form input { width: clamp(140px, 40vw, 200px); }
 }
 @media (max-width: 600px) {
-  .operator-management { padding: 7px 1vw;}
-  .add-form input { width: 90px; font-size: 12.2px;}
-  .add-form button { font-size: 13px; }
-  .operator-table th, .operator-table td { font-size: 0.91rem; padding: 5px 3px;}
-}
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(32px);}
-  to { opacity: 1; transform: translateY(0);}
+  .operator-management { padding: 16px 12px; }
+  .add-form { gap: 10px; }
+  .operator-table thead th, .operator-table tbody td { padding: 10px 12px; }
 }

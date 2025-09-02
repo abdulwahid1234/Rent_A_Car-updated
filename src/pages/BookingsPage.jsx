@@ -1,37 +1,90 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
+import { FiSearch, FiUserCheck, FiAlertCircle } from "react-icons/fi";
 import "./Bookings.css";
 
 const Bookings = () => {
   const [showModal, setShowModal] = useState(false);
+
+  // data
   const [bookings, setBookings] = useState([]);
   const [availableCars, setAvailableCars] = useState([]);
-  const [customer, setCustomer] = useState("");
+
+  // form state
+  const [cnic, setCnic] = useState("");
+  const [foundCustomer, setFoundCustomer] = useState(null);
   const [selectedCar, setSelectedCar] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
 
+  // cache customers list for lookup
+  const [allCustomers, setAllCustomers] = useState([]);
+
+  // helpers
+  const normalizeCNIC = (v = "") => v.replace(/\D/g, ""); // digits only
+  const formatCNIC = (v = "") => {
+    // simple formatter: 12345-1234567-1
+    const d = v.replace(/\D/g, "").slice(0, 13);
+    const p1 = d.slice(0, 5);
+    const p2 = d.slice(5, 12);
+    const p3 = d.slice(12, 13);
+    let out = p1;
+    if (p2) out += "-" + p2;
+    if (p3) out += "-" + p3;
+    return out;
+  };
+
+  // Load cars, bookings, customers
   useEffect(() => {
-    const carList = JSON.parse(localStorage.getItem("cars")) || [];
-    setAvailableCars(carList.filter(car => car.status !== "Booked"));
+    const allCars = JSON.parse(localStorage.getItem("cars")) || [];
+    const avail = allCars.filter(
+      (c) => (c.status || "available").toLowerCase() !== "booked"
+    );
+    setAvailableCars(avail);
 
     const savedBookings = JSON.parse(localStorage.getItem("bookings")) || [];
     setBookings(savedBookings);
+
+    const savedCustomers = JSON.parse(localStorage.getItem("customers")) || [];
+    setAllCustomers(savedCustomers);
   }, []);
+
+  // live lookup on CNIC type
+  useEffect(() => {
+    if (!cnic) {
+      setFoundCustomer(null);
+      return;
+    }
+    const digits = normalizeCNIC(cnic);
+    // exact match (13 digits) → pick exact; otherwise no match yet
+    if (digits.length === 13) {
+      const match = allCustomers.find(
+        (c) => normalizeCNIC(c.cnic) === digits
+      );
+      setFoundCustomer(match || null);
+    } else {
+      setFoundCustomer(null);
+    }
+  }, [cnic, allCustomers]);
 
   const handleBookingSubmit = (e) => {
     e.preventDefault();
-    if (!customer || !selectedCar || !fromDate || !toDate) {
+    if (!cnic || !selectedCar || !fromDate || !toDate) {
       alert("Please fill all fields");
+      return;
+    }
+    if (!foundCustomer) {
+      alert("CNIC not found in Customers. Please add the customer first.");
       return;
     }
 
     const newBooking = {
       id: `B${Date.now()}`,
-      customer,
+      customer: foundCustomer.name,          // name used in table
+      customerCnic: foundCustomer.cnic,      // keep CNIC too
       car: selectedCar,
       from: fromDate,
       to: toDate,
-      amount: "0", // You can compute this later
+      amount: "0",
       status: "Confirmed",
     };
 
@@ -39,14 +92,21 @@ const Bookings = () => {
     setBookings(updatedBookings);
     localStorage.setItem("bookings", JSON.stringify(updatedBookings));
 
-    // Update car status
-    const updatedCars = availableCars.map((car) =>
-      car.carName === selectedCar ? { ...car, status: "Booked" } : car
+    // Update cars → mark selected as booked
+    const allCars = JSON.parse(localStorage.getItem("cars")) || [];
+    const updatedCars = allCars.map((car) =>
+      car.carName === selectedCar ? { ...car, status: "booked" } : car
     );
     localStorage.setItem("cars", JSON.stringify(updatedCars));
-    setAvailableCars(updatedCars);
+    setAvailableCars(
+      updatedCars.filter(
+        (c) => (c.status || "available").toLowerCase() !== "booked"
+      )
+    );
 
-    setCustomer("");
+    // reset
+    setCnic("");
+    setFoundCustomer(null);
     setSelectedCar("");
     setFromDate("");
     setToDate("");
@@ -82,7 +142,12 @@ const Bookings = () => {
             {bookings.map((booking) => (
               <tr key={booking.id} className="border-b">
                 <td className="p-2">{booking.id}</td>
-                <td className="p-2">{booking.customer}</td>
+                <td className="p-2">
+                  {booking.customer}
+                  {booking.customerCnic ? (
+                    <span className="cnic-chip">{booking.customerCnic}</span>
+                  ) : null}
+                </td>
                 <td className="p-2">{booking.car}</td>
                 <td className="p-2">{booking.from}</td>
                 <td className="p-2">{booking.to}</td>
@@ -96,18 +161,50 @@ const Bookings = () => {
 
       {showModal && (
         <div className="modal-overlay">
-          <div className="modal-form">
+          <div className="modal-form1" onClick={(e) => e.stopPropagation()}>
             <h3 className="text-xl font-bold mb-4">New Booking</h3>
+
             <form onSubmit={handleBookingSubmit}>
+              {/* CNIC lookup */}
               <div className="mb-4">
-                <label>Customer Name:</label>
-                <input
-                  type="text"
-                  className="input"
-                  value={customer}
-                  onChange={(e) => setCustomer(e.target.value)}
-                />
+                <label>Customer CNIC:</label>
+                <div className="input-with-icon">
+                  <FiSearch className="left-icon" />
+                  <input
+                    type="text"
+                    className="input"
+                    placeholder="12345-6789012-3"
+                    value={formatCNIC(cnic)}
+                    onChange={(e) => setCnic(e.target.value)}
+                    maxLength={15}
+                  />
+                  {cnic ? (
+                    foundCustomer ? (
+                      <span className="status-pill success">
+                        <FiUserCheck /> Found
+                      </span>
+                    ) : (
+                      <span className="status-pill danger">
+                        <FiAlertCircle /> Not found
+                      </span>
+                    )
+                  ) : null}
+                </div>
+
+                {foundCustomer && (
+                  <div className="customer-preview">
+                    <div>
+                      <div className="cp-name">{foundCustomer.name}</div>
+                      <div className="cp-sub">
+                        {foundCustomer.mobile} • {foundCustomer.email || "-"}
+                      </div>
+                    </div>
+                    <div className="cp-cnic">{foundCustomer.cnic}</div>
+                  </div>
+                )}
               </div>
+
+              {/* Car */}
               <div className="mb-4">
                 <label>Car:</label>
                 <select
@@ -115,30 +212,37 @@ const Bookings = () => {
                   value={selectedCar}
                   onChange={(e) => setSelectedCar(e.target.value)}
                 >
-                  <option>Select Car</option>
-                  {availableCars.map((car, idx) => (
-                    <option key={idx} value={car.carName}>{car.carName}</option>
+                  <option value="">Select Car</option>
+                  {availableCars.map((car) => (
+                    <option key={car.id} value={car.carName}>
+                      {car.carName}
+                    </option>
                   ))}
                 </select>
               </div>
-              <div className="mb-4">
-                <label>Start Date:</label>
-                <input
-                  type="date"
-                  className="input"
-                  value={fromDate}
-                  onChange={(e) => setFromDate(e.target.value)}
-                />
+
+              {/* Dates */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="mb-4">
+                  <label>Start Date:</label>
+                  <input
+                    type="date"
+                    className="input"
+                    value={fromDate}
+                    onChange={(e) => setFromDate(e.target.value)}
+                  />
+                </div>
+                <div className="mb-4">
+                  <label>End Date:</label>
+                  <input
+                    type="date"
+                    className="input"
+                    value={toDate}
+                    onChange={(e) => setToDate(e.target.value)}
+                  />
+                </div>
               </div>
-              <div className="mb-4">
-                <label>End Date:</label>
-                <input
-                  type="date"
-                  className="input"
-                  value={toDate}
-                  onChange={(e) => setToDate(e.target.value)}
-                />
-              </div>
+
               <div className="flex justify-end gap-3">
                 <button
                   type="button"

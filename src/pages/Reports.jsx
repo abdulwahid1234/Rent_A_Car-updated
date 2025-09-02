@@ -1,76 +1,89 @@
-import React, { useState } from 'react';
-import './Report.css';
+import React, { useMemo, useState } from "react";
+import "./Report.css";
 
 const reportData = [
-  {
-    car: 'Honda Civic',
-    regNo: 'ACQ 346',
-    bookings: 30,
-    revenue: 150000,
-    expense: 25000
-  },
-  {
-    car: 'Fortuner',
-    regNo: 'ALI 38',
-    bookings: 19,
-    revenue: 351500,
-    expense: 91000
-  },
-  {
-    car: 'BRV',
-    regNo: 'AQV 189',
-    bookings: 30,
-    revenue: 109980,
-    expense: 9000
-  }
+  { car: "Honda Civic", regNo: "ACQ 346", bookings: 30, revenue: 150000, expense: 25000 },
+  { car: "Fortuner",    regNo: "ALI 38",  bookings: 19, revenue: 351500, expense: 91000 },
+  { car: "BRV",         regNo: "AQV 189", bookings: 30, revenue: 109980, expense: 9000   },
 ];
 
 const ReportPage = () => {
-  const [month, setMonth] = useState('2024-07');
+  const [month, setMonth] = useState("2024-07");
 
   const handleExport = (type) => {
+    // Wire up your real export here
     alert(`Exporting report as ${type}`);
   };
 
-  const totalRevenue = reportData.reduce((sum, car) => sum + car.revenue, 0);
-  const totalExpense = reportData.reduce((sum, car) => sum + car.expense, 0);
-  const totalProfit = totalRevenue - totalExpense;
+  const totals = useMemo(() => {
+    const totalBookings = reportData.reduce((s, c) => s + c.bookings, 0);
+    const totalRevenue  = reportData.reduce((s, c) => s + c.revenue, 0);
+    const totalExpense  = reportData.reduce((s, c) => s + c.expense, 0);
+    return {
+      totalBookings,
+      totalRevenue,
+      totalExpense,
+      totalProfit: totalRevenue - totalExpense,
+    };
+  }, []);
+
+  const monthLabel = useMemo(() => {
+    const [y, m] = month.split("-");
+    const d = new Date(Number(y), Number(m) - 1, 1);
+    return d.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+  }, [month]);
+
+  const fmtRs = (n) =>
+    new Intl.NumberFormat("en-PK", {
+      style: "currency",
+      currency: "PKR",
+      maximumFractionDigits: 0,
+    }).format(n);
 
   return (
-    <div className="report-container">
-      <h2>Monthly Report – July 2024</h2>
+    <div className="report">
+      <h2>Monthly Report — {monthLabel}</h2>
 
       <div className="report-controls1">
         <input
           type="month"
           value={month}
           onChange={(e) => setMonth(e.target.value)}
+          aria-label="Select month"
         />
-        <button onClick={() => handleExport('Excel')}>Export Excel</button>
-        <button onClick={() => handleExport('PDF')}>Export PDF</button>
+        <div className="btn-group">
+          <button className="btn btn-outline" onClick={() => handleExport("Excel")}>
+            Export Excel
+          </button>
+          <button className="btn btn-primary" onClick={() => handleExport("PDF")}>
+            Export PDF
+          </button>
+        </div>
       </div>
 
-      <div className="report-summary">
+      {/* Summary Cards */}
+      <div className="summary-grid">
         <div className="summary-card blue">
           <h4>Total Bookings</h4>
-          <p>{reportData.reduce((sum, car) => sum + car.bookings, 0)}</p>
+          <p>{totals.totalBookings}</p>
         </div>
         <div className="summary-card green">
           <h4>Total Revenue</h4>
-          <p>Rs {totalRevenue.toLocaleString()}</p>
+          <p>{fmtRs(totals.totalRevenue)}</p>
         </div>
         <div className="summary-card red">
           <h4>Total Expenses</h4>
-          <p>Rs {totalExpense.toLocaleString()}</p>
+          <p>{fmtRs(totals.totalExpense)}</p>
         </div>
         <div className="summary-card yellow">
           <h4>Net Profit</h4>
-          <p>Rs {totalProfit.toLocaleString()}</p>
+          <p>{fmtRs(totals.totalProfit)}</p>
         </div>
       </div>
 
-      <div className="table-wrapper">
-        <table className="report-table">
+      {/* Table */}
+      <div className="table-card">
+        <table>
           <thead>
             <tr>
               <th>Car</th>
@@ -82,25 +95,30 @@ const ReportPage = () => {
             </tr>
           </thead>
           <tbody>
-            {reportData.map((car, index) => (
-              <tr key={index}>
-                <td>{car.car}</td>
-                <td>{car.regNo}</td>
-                <td>{car.bookings}</td>
-                <td>Rs {car.revenue.toLocaleString()}</td>
-                <td>Rs {car.expense.toLocaleString()}</td>
-                <td>Rs {(car.revenue - car.expense).toLocaleString()}</td>
-              </tr>
-            ))}
+            {reportData.map((car, i) => {
+              const profit = car.revenue - car.expense;
+              return (
+                <tr key={i}>
+                  <td className="cell-strong">{car.car}</td>
+                  <td>{car.regNo}</td>
+                  <td>{car.bookings}</td>
+                  <td>{fmtRs(car.revenue)}</td>
+                  <td>{fmtRs(car.expense)}</td>
+                  <td className={profit < 0 ? "neg" : "pos"}>{fmtRs(profit)}</td>
+                </tr>
+              );
+            })}
           </tbody>
           <tfoot>
-            <tr className="totals-row">
+            <tr className="totals">
               <td><strong>TOTAL</strong></td>
               <td></td>
-              <td>{reportData.reduce((sum, car) => sum + car.bookings, 0)}</td>
-              <td>Rs {totalRevenue.toLocaleString()}</td>
-              <td>Rs {totalExpense.toLocaleString()}</td>
-              <td>Rs {totalProfit.toLocaleString()}</td>
+              <td><strong>{totals.totalBookings}</strong></td>
+              <td><strong>{fmtRs(totals.totalRevenue)}</strong></td>
+              <td><strong>{fmtRs(totals.totalExpense)}</strong></td>
+              <td className={totals.totalProfit < 0 ? "neg" : "pos"}>
+                <strong>{fmtRs(totals.totalProfit)}</strong>
+              </td>
             </tr>
           </tfoot>
         </table>

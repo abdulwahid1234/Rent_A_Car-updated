@@ -1,87 +1,155 @@
-import React, { useState } from 'react';
-import './UserSignUp.css';
+import React, { useState, useEffect } from "react";
+import "./UserSignUp.css";
 
 const UserSignUp = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    image: null, // store the uploaded image
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    imageUrl: "",
   });
+  const [errors, setErrors] = useState({});
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleInputChange = (e) => {
+  // Force light background for this page only
+  useEffect(() => {
+    document.body.classList.add("light-surface");
+    return () => document.body.classList.remove("light-surface");
+  }, []);
+
+  const onChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setForm((f) => ({ ...f, [name]: value }));
+    if (errors[name]) setErrors((er) => ({ ...er, [name]: "" }));
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
+  const onImageChange = (e) => {
+    const file = e.target.files?.[0];
     if (file) {
-      setFormData({
-        ...formData,
-        image: URL.createObjectURL(file), // Show the selected image
-      });
+      const url = URL.createObjectURL(file);
+      setForm((f) => ({ ...f, imageUrl: url }));
+      if (errors.imageUrl) setErrors((er) => ({ ...er, imageUrl: "" }));
     }
   };
 
-  const handleSubmit = (e) => {
+  const validate = () => {
+    const er = {};
+    if (!form.name.trim()) er.name = "Full name is required";
+    if (!form.email.trim()) er.email = "Email is required";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) er.email = "Enter a valid email";
+    if (!form.password) er.password = "Password is required";
+    else if (form.password.length < 6) er.password = "At least 6 characters";
+    if (!form.confirmPassword) er.confirmPassword = "Please confirm your password";
+    else if (form.confirmPassword !== form.password) er.confirmPassword = "Passwords do not match";
+    if (!form.imageUrl) er.imageUrl = "Please upload a profile image";
+    setErrors(er);
+    return Object.keys(er).length === 0;
+  };
+
+  const onSubmit = (e) => {
     e.preventDefault();
-    if (formData.name && formData.email && formData.password && formData.image) {
-      // Here you would handle the user signup, e.g., send the data to a server
-      console.log('User signed up:', formData);
-      // For now, we will just reset the form
-      setFormData({ name: '', email: '', password: '', image: null });
-      alert('User signed up successfully!');
-      <nav><Link to="/userlogin" className="nav-link">Sign In</Link></nav>
-    } else {
-      alert('Please fill in all fields and upload an image!');
+    if (!validate()) return;
+
+    try {
+      setSubmitting(true);
+      const users = JSON.parse(localStorage.getItem("users") || "[]");
+      users.push({
+        id: Date.now(),
+        name: form.name,
+        email: form.email,
+        password: form.password, // demo only; don’t store raw passwords in production
+        imageUrl: form.imageUrl,
+      });
+      localStorage.setItem("users", JSON.stringify(users));
+      alert("User signed up successfully!");
+      window.location.href = "/userlogin";
+    } catch {
+      alert("Sign up failed. Please try again.");
+    } finally {
+      setSubmitting(false);
     }
   };
 
   return (
     <div className="signup-container">
-      <h2>Sign Up</h2>
-      <form className="signup-form" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          placeholder="Full Name"
-          onChange={handleInputChange}
-        />
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          placeholder="Email Address"
-          onChange={handleInputChange}
-        />
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          placeholder="Password"
-          onChange={handleInputChange}
-        />
+      <div className="signup-card">
+        <h2>Create your account</h2>
+        <p className="subtitle">Join us to manage your rentals with ease.</p>
 
-        {/* Image Upload Section */}
-        <div className="image-upload">
-          <label htmlFor="image-upload">Upload Profile Image</label>
+        <form className="signup-form" onSubmit={onSubmit} noValidate>
+          <div className="avatar-row">
+            <div className="avatar">
+              {form.imageUrl ? (
+                <img src={form.imageUrl} alt="Profile preview" />
+              ) : (
+                <span className="avatar-placeholder" aria-hidden>👤</span>
+              )}
+            </div>
+            <div className="file-wrap">
+              <label htmlFor="image-upload" className="file-label">Upload profile image</label>
+              <input id="image-upload" type="file" accept="image/*" onChange={onImageChange} />
+              {errors.imageUrl && <div className="error-text">{errors.imageUrl}</div>}
+            </div>
+          </div>
+
+          <label>Full Name</label>
           <input
-            type="file"
-            id="image-upload"
-            name="image"
-            accept="image/*"
-            onChange={handleImageChange}
+            className={errors.name ? "input error" : "input"}
+            type="text"
+            name="name"
+            value={form.name}
+            placeholder="Jane Doe"
+            onChange={onChange}
+            autoComplete="name"
           />
-          {formData.image && <img src={formData.image} alt="Profile Preview" className="profile-preview" />}
-        </div>
+          {errors.name && <div className="error-text">{errors.name}</div>}
 
-        <button type="submit">Sign Up</button>
-      </form>
+          <label>Email</label>
+          <input
+            className={errors.email ? "input error" : "input"}
+            type="email"
+            name="email"
+            value={form.email}
+            placeholder="you@example.com"
+            onChange={onChange}
+            autoComplete="email"
+          />
+          {errors.email && <div className="error-text">{errors.email}</div>}
+
+          <label>Password</label>
+          <input
+            className={errors.password ? "input error" : "input"}
+            type="password"
+            name="password"
+            value={form.password}
+            placeholder="••••••••"
+            onChange={onChange}
+            autoComplete="new-password"
+          />
+          {errors.password && <div className="error-text">{errors.password}</div>}
+
+          <label>Confirm Password</label>
+          <input
+            className={errors.confirmPassword ? "input error" : "input"}
+            type="password"
+            name="confirmPassword"
+            value={form.confirmPassword}
+            placeholder="••••••••"
+            onChange={onChange}
+            autoComplete="new-password"
+          />
+          {errors.confirmPassword && <div className="error-text">{errors.confirmPassword}</div>}
+
+          <button type="submit" disabled={submitting}>
+            {submitting ? "Creating account..." : "Sign Up"}
+          </button>
+        </form>
+
+        <div className="helper-row">
+          Already have an account? <a href="/userlogin">Sign in</a>
+        </div>
+      </div>
     </div>
   );
 };

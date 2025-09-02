@@ -2,8 +2,8 @@
   --green-primary: #05b859;
   --green-dark: #587807;
   --gold-highlight: #facc15;
-  --gray-dark: #1f2937;
-  --gray-deep: #111827;
+  --gray-dark: #f3f4f6;
+  --gray-deep: #f3f4f6;
   --gray-muted: #9ca3af;
   --text-default: #f3f4f6;
 }
@@ -11,9 +11,10 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background-color: var(--gray-deep);
+  background-color: #f3f4f6;
   color: var(--text-default);
-
+  height: 100vh;
+  
 }
 
 /* Layout Wrapper */

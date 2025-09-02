@@ -1,103 +1,42 @@
-"use client"
+"use client";
 
-import { useState, useMemo } from "react"
-import "./Dashboard.css"
+import { useState, useMemo } from "react";
+import "./Dashboard.css";
+import {
+  FaSearch,
+  FaPlus,
+  FaFileExcel,
+  FaFilePdf,
+  FaEdit,
+  FaTrash,
+  FaTimes,
+} from "react-icons/fa";
 
 const initialCarData = [
-  {
-    id: "1",
-    car: "Honda Civic",
-    regNo: "ACQ 346",
-    totalBookings: 30,
-    totalRevenue: 150000,
-    expenseDetails: "Oil change",
-    currentProfit: 150000,
-    afterNetAmount: 112500,
-    companyProfit: 37500,
-  },
-  {
-    id: "2",
-    car: "Fortuner",
-    regNo: "ALI 38",
-    totalBookings: 19,
-    totalRevenue: 351500.8,
-    expenseDetails: "Daily Exp",
-    currentProfit: 260500.8,
-    afterNetAmount: 195375.6,
-    companyProfit: 65125.2,
-  },
-  {
-    id: "3",
-    car: "BRV",
-    regNo: "AQV 189",
-    totalBookings: 30,
-    totalRevenue: 109980,
-    expenseDetails: "Oil change",
-    currentProfit: 100980,
-    afterNetAmount: 75735,
-    companyProfit: 25245,
-  },
-  {
-    id: "4",
-    car: "Cultus",
-    regNo: "AEN 589",
-    totalBookings: 30,
-    totalRevenue: 79980,
-    expenseDetails: "DISK break",
-    currentProfit: 75630,
-    afterNetAmount: 56722.5,
-    companyProfit: 18907.5,
-  },
-  {
-    id: "5",
-    car: "Civic (2)",
-    regNo: "ASB 053",
-    totalBookings: 17,
-    totalRevenue: 117000,
-    expenseDetails: "-",
-    currentProfit: 117000,
-    afterNetAmount: 87750,
-    companyProfit: 29250,
-  },
-  {
-    id: "6",
-    car: "Grande",
-    regNo: "LEA 561",
-    totalBookings: 26,
-    totalRevenue: 109500,
-    expenseDetails: "Transfer Fee",
-    currentProfit: 43500,
-    afterNetAmount: 32625,
-    companyProfit: 10875,
-  },
-  {
-    id: "7",
-    car: "GLI",
-    regNo: "RIC 404",
-    totalBookings: 22,
-    totalRevenue: 76000,
-    expenseDetails: "-",
-    currentProfit: 74000,
-    afterNetAmount: 55500,
-    companyProfit: 18500,
-  },
-]
+  { id: "1", car: "Honda Civic", regNo: "ACQ 346", totalBookings: 30, totalRevenue: 150000, expenseDetails: "Oil change", currentProfit: 150000, afterNetAmount: 112500, companyProfit: 37500 },
+  { id: "2", car: "Fortuner", regNo: "ALI 38", totalBookings: 19, totalRevenue: 351500.8, expenseDetails: "Daily Exp", currentProfit: 260500.8, afterNetAmount: 195375.6, companyProfit: 65125.2 },
+  { id: "3", car: "BRV", regNo: "AQV 189", totalBookings: 30, totalRevenue: 109980, expenseDetails: "Oil change", currentProfit: 100980, afterNetAmount: 75735, companyProfit: 25245 },
+  { id: "4", car: "Cultus", regNo: "AEN 589", totalBookings: 30, totalRevenue: 79980, expenseDetails: "DISK break", currentProfit: 75630, afterNetAmount: 56722.5, companyProfit: 18907.5 },
+  { id: "5", car: "Civic (2)", regNo: "ASB 053", totalBookings: 17, totalRevenue: 117000, expenseDetails: "-", currentProfit: 117000, afterNetAmount: 87750, companyProfit: 29250 },
+  { id: "6", car: "Grande", regNo: "LEA 561", totalBookings: 26, totalRevenue: 109500, expenseDetails: "Transfer Fee", currentProfit: 43500, afterNetAmount: 32625, companyProfit: 10875 },
+  { id: "7", car: "GLI", regNo: "RIC 404", totalBookings: 22, totalRevenue: 76000, expenseDetails: "-", currentProfit: 74000, afterNetAmount: 55500, companyProfit: 18500 },
+];
 
 const Dashboard = () => {
-  const [carData, setCarData] = useState(initialCarData)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
-  const [editingCar, setEditingCar] = useState(null)
-  const [formData, setFormData] = useState({})
+  const [carData, setCarData] = useState(initialCarData);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [editingCar, setEditingCar] = useState(null);
+  const [formData, setFormData] = useState({});
 
   // Filter data based on search term
   const filteredData = useMemo(() => {
     return carData.filter(
       (car) =>
         car.car.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        car.regNo.toLowerCase().includes(searchTerm.toLowerCase()),
-    )
-  }, [carData, searchTerm])
+        car.regNo.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [carData, searchTerm]);
 
   // Calculate totals
   const totals = useMemo(() => {
@@ -109,15 +48,9 @@ const Dashboard = () => {
         afterNetAmount: acc.afterNetAmount + car.afterNetAmount,
         companyProfit: acc.companyProfit + car.companyProfit,
       }),
-      {
-        totalBookings: 0,
-        totalRevenue: 0,
-        currentProfit: 0,
-        afterNetAmount: 0,
-        companyProfit: 0,
-      },
-    )
-  }, [filteredData])
+      { totalBookings: 0, totalRevenue: 0, currentProfit: 0, afterNetAmount: 0, companyProfit: 0 }
+    );
+  }, [filteredData]);
 
   const handleAddCar = () => {
     if (formData.car && formData.regNo) {
@@ -131,12 +64,12 @@ const Dashboard = () => {
         currentProfit: Number.parseFloat(formData.currentProfit) || 0,
         afterNetAmount: Number.parseFloat(formData.afterNetAmount) || 0,
         companyProfit: Number.parseFloat(formData.companyProfit) || 0,
-      }
-      setCarData([...carData, newCar])
-      setFormData({})
-      setIsAddDialogOpen(false)
+      };
+      setCarData([...carData, newCar]);
+      setFormData({});
+      setIsAddDialogOpen(false);
     }
-  }
+  };
 
   const handleEditCar = () => {
     if (editingCar && formData.car && formData.regNo) {
@@ -148,24 +81,24 @@ const Dashboard = () => {
         currentProfit: Number.parseFloat(formData.currentProfit) || 0,
         afterNetAmount: Number.parseFloat(formData.afterNetAmount) || 0,
         companyProfit: Number.parseFloat(formData.companyProfit) || 0,
-      }
+      };
 
-      setCarData(carData.map((car) => (car.id === editingCar.id ? updatedCar : car)))
-      setEditingCar(null)
-      setFormData({})
+      setCarData(carData.map((car) => (car.id === editingCar.id ? updatedCar : car)));
+      setEditingCar(null);
+      setFormData({});
     }
-  }
+  };
 
   const handleDeleteCar = (id) => {
     if (window.confirm("Are you sure you want to delete this car?")) {
-      setCarData(carData.filter((car) => car.id !== id))
+      setCarData(carData.filter((car) => car.id !== id));
     }
-  }
+  };
 
   const openEditDialog = (car) => {
-    setEditingCar(car)
-    setFormData(car)
-  }
+    setEditingCar(car);
+    setFormData(car);
+  };
 
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("en-US", {
@@ -173,8 +106,8 @@ const Dashboard = () => {
       currency: "USD",
       minimumFractionDigits: 0,
       maximumFractionDigits: 2,
-    }).format(amount)
-  }
+    }).format(amount);
+  };
 
   const exportToCSV = () => {
     const headers = [
@@ -186,7 +119,7 @@ const Dashboard = () => {
       "Current Profit",
       "After 75% Net Amount",
       "Company Profit",
-    ]
+    ];
     const csvContent = [
       headers.join(","),
       ...filteredData.map((car) =>
@@ -199,18 +132,18 @@ const Dashboard = () => {
           car.currentProfit,
           car.afterNetAmount,
           car.companyProfit,
-        ].join(","),
+        ].join(",")
       ),
-    ].join("\n")
+    ].join("\n");
 
-    const blob = new Blob([csvContent], { type: "text/csv" })
-    const url = window.URL.createObjectURL(blob)
-    const a = document.createElement("a")
-    a.href = url
-    a.download = "car-rental-report.csv"
-    a.click()
-    window.URL.revokeObjectURL(url)
-  }
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "car-rental-report.csv";
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
 
   return (
     <div className="dashboard">
@@ -304,19 +237,25 @@ const Dashboard = () => {
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="search-input"
                 />
-                <span className="search-icon">🔍</span>
+                {/* <FaSearch className="search-icon" aria-hidden="true" /> */}
               </div>
               <div className="button-group">
                 <button className="btn btn-success" onClick={() => setIsAddDialogOpen(true)}>
-                  ➕ Add Car
+                  <FaPlus aria-hidden="true" />
+                  <span>Add Car</span>
                 </button>
                 <button className="btn btn-outline" onClick={exportToCSV}>
-                  📊 Export Excel
+                  <FaFileExcel aria-hidden="true" />
+                  <span>Export Excel</span>
                 </button>
-                <button className="btn btn-outline">📄 Export PDF</button>
+                <button className="btn btn-outline">
+                  <FaFilePdf aria-hidden="true" />
+                  <span>Export PDF</span>
+                </button>
               </div>
             </div>
           </div>
+
           <div className="card-content">
             <div className="table-container">
               <table className="data-table">
@@ -346,11 +285,21 @@ const Dashboard = () => {
                       <td>{formatCurrency(car.companyProfit)}</td>
                       <td>
                         <div className="action-buttons">
-                          <button className="btn btn-sm btn-outline" onClick={() => openEditDialog(car)}>
-                            ✏️
+                          <button
+                            className="btn btn-sm btn-outline"
+                            onClick={() => openEditDialog(car)}
+                            aria-label={`Edit ${car.car}`}
+                            title="Edit"
+                          >
+                            <FaEdit />
                           </button>
-                          <button className="btn btn-sm btn-destructive" onClick={() => handleDeleteCar(car.id)}>
-                            🗑️
+                          <button
+                            className="btn btn-sm btn-destructive"
+                            onClick={() => handleDeleteCar(car.id)}
+                            aria-label={`Delete ${car.car}`}
+                            title="Delete"
+                          >
+                            <FaTrash />
                           </button>
                         </div>
                       </td>
@@ -381,8 +330,8 @@ const Dashboard = () => {
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
               <div className="modal-header">
                 <h3>Add New Car</h3>
-                <button className="close-btn" onClick={() => setIsAddDialogOpen(false)}>
-                  ✕
+                <button className="close-btn" onClick={() => setIsAddDialogOpen(false)} aria-label="Close">
+                  <FaTimes />
                 </button>
               </div>
               <div className="modal-body">
@@ -479,8 +428,8 @@ const Dashboard = () => {
           <div
             className="modal-overlay"
             onClick={() => {
-              setEditingCar(null)
-              setFormData({})
+              setEditingCar(null);
+              setFormData({});
             }}
           >
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -489,11 +438,12 @@ const Dashboard = () => {
                 <button
                   className="close-btn"
                   onClick={() => {
-                    setEditingCar(null)
-                    setFormData({})
+                    setEditingCar(null);
+                    setFormData({});
                   }}
+                  aria-label="Close"
                 >
-                  ✕
+                  <FaTimes />
                 </button>
               </div>
               <div className="modal-body">
@@ -586,7 +536,7 @@ const Dashboard = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

@@ -3,9 +3,16 @@ import { useFormik } from "formik";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import {
-  FaCar, FaCalendarAlt, FaPalette, FaUser, FaIdCard, FaPhone, FaMapMarkerAlt, FaDollarSign
+  FaCar,
+  FaCalendarAlt,
+  FaPalette,
+  FaUser,
+  FaIdCard,
+  FaPhone,
+  FaMapMarkerAlt,
+  FaDollarSign,
 } from "react-icons/fa";
-import './CarOwnerRegistration.css';
+import "./CarOwnerRegistration.css";
 
 const CarOwnerRegistration = () => {
   const [loading, setLoading] = useState(false);
@@ -56,25 +63,27 @@ const CarOwnerRegistration = () => {
         <div>
           <h3>Car Details</h3>
           {[
-            { field: "Make", icon: <FaCar /> },
-            { field: "Model", icon: <FaCar /> },
-            { field: "Year", icon: <FaCalendarAlt /> },
-            { field: "RegistrationNo", icon: <FaIdCard /> },
-            { field: "EngineNo", icon: <FaIdCard /> },
-            { field: "Color", icon: <FaPalette /> },
-            { field: "RatePerDay", icon: <FaDollarSign /> },
-          ].map(({ field, icon }) => (
+            { field: "make", label: "Make", icon: <FaCar /> },
+            { field: "model", label: "Model", icon: <FaCar /> },
+            { field: "year", label: "Year", icon: <FaCalendarAlt /> },
+            { field: "registrationNo", label: "Registration No", icon: <FaIdCard /> },
+            { field: "engineNo", label: "Engine No", icon: <FaIdCard /> },
+            { field: "color", label: "Color", icon: <FaPalette /> },
+            { field: "ratePerDay", label: "Rate Per Day", icon: <FaDollarSign /> },
+          ].map(({ field, label, icon }) => (
             <div key={field} className="mb-4 input-with-icon">
-              <label>{field.replace(/([A-Z])/g, " $1")}:</label>
-              <span className="icon">{icon}</span>
-              <input
-                type={["ratePerDay", "year"].includes(field) ? "number" : "text"}
-                name={`car.${field}`}
-                value={values.car[field]}
-                onChange={handleChange}
-                placeholder={field}
-                required
-              />
+              <label>{label}:</label>
+              <div className="input-wrapper">
+                <span className="icon">{icon}</span>
+                <input
+                  type={["ratePerDay", "year"].includes(field) ? "number" : "text"}
+                  name={`car.${field}`}
+                  value={values.car[field]}
+                  onChange={handleChange}
+                  placeholder={label}
+                  required
+                />
+              </div>
             </div>
           ))}
 
@@ -96,23 +105,25 @@ const CarOwnerRegistration = () => {
         <div>
           <h3>Owner Details</h3>
           {[
-            { field: "Name", icon: <FaUser /> },
-            { field: "Cnic", icon: <FaIdCard /> },
-            { field: "Contact", icon: <FaPhone /> },
-            { field: "Address", icon: <FaMapMarkerAlt /> },
-            { field: "RevenueShare", icon: <FaDollarSign /> },
-          ].map(({ field, icon }) => (
+            { field: "name", label: "Name", icon: <FaUser /> },
+            { field: "cnic", label: "CNIC", icon: <FaIdCard /> },
+            { field: "contact", label: "Contact", icon: <FaPhone /> },
+            { field: "address", label: "Address", icon: <FaMapMarkerAlt /> },
+            { field: "revenueShare", label: "Revenue Share", icon: <FaDollarSign /> },
+          ].map(({ field, label, icon }) => (
             <div key={field} className="mb-4 input-with-icon">
-              <label>{field.replace(/([A-Z])/g, " $1")}:</label>
-              <span className="icon">{icon}</span>
-              <input
-                type={field === "revenueShare" ? "number" : "text"}
-                name={`owner.${field}`}
-                value={values.owner[field]}
-                onChange={handleChange}
-                placeholder={field}
-                required
-              />
+              <label>{label}:</label>
+              <div className="input-wrapper">
+                <span className="icon">{icon}</span>
+                <input
+                  type={field === "revenueShare" ? "number" : "text"}
+                  name={`owner.${field}`}
+                  value={values.owner[field]}
+                  onChange={handleChange}
+                  placeholder={label}
+                  required
+                />
+              </div>
             </div>
           ))}
 

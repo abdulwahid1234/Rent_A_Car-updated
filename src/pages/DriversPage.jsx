@@ -52,7 +52,7 @@ const DriversPage = () => {
       // Edit existing
       setDrivers(prev => prev.map(d => (d.id === driver.id ? driver : d)));
     } else {
-      // Add new
+      // Add new driver with image as data URL
       setDrivers(prev => [...prev, { ...driver, id: Date.now() }]);
     }
     setShowForm(false);

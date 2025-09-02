@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthContext/AuthContext.jsx";
 import toast from "react-hot-toast";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import './Login.css';
+import "./Login.css";
 
 const Login = () => {
   const { login } = useContext(AuthContext);
@@ -15,18 +15,44 @@ const Login = () => {
   const [darkMode, setDarkMode] = useState(false);
   const navigate = useNavigate();
 
+  // Restore last user/role + seed a demo operator if missing
   useEffect(() => {
     const lastUsername = sessionStorage.getItem("username");
     const lastRole = sessionStorage.getItem("role");
     if (lastUsername) setUsername(lastUsername);
     if (lastRole) setRole(lastRole);
+
+    const storedOps = JSON.parse(localStorage.getItem("operators") || "[]");
+    if (!storedOps.some((op) => op.username?.toLowerCase() === "akbar")) {
+      localStorage.setItem(
+        "operators",
+        JSON.stringify([
+          ...storedOps,
+          {
+            id: Date.now(),
+            username: "Akbar",
+            email: "akbar@example.com",
+            mobile: "03001234567",
+            cnic: "12345-6789012-3",
+            password: "akbar",
+          },
+        ])
+      );
+    }
+
+    // load persisted theme pref
+    const pref = localStorage.getItem("prefers-dark") === "true";
+    setDarkMode(pref);
+    document.body.classList.toggle("dark", pref);
   }, []);
 
+  // Apply theme to <body>
   useEffect(() => {
     document.body.classList.toggle("dark", darkMode);
+    localStorage.setItem("prefers-dark", String(darkMode));
   }, [darkMode]);
 
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
     setLoading(true);
 
@@ -45,17 +71,19 @@ const Login = () => {
         } else {
           toast.error("Invalid Admin Credentials");
         }
-      } else if (role === "operator") {
-        const operators = JSON.parse(localStorage.getItem("operators")) || [];
+      } else {
+        const operators = JSON.parse(localStorage.getItem("operators") || "[]");
         const found = operators.find(
           (op) => op.username === username && op.password === password
         );
-
         if (found) {
           sessionStorage.setItem("username", found.username);
           sessionStorage.setItem("role", "operator");
           sessionStorage.setItem("email", found.email || `${found.username}@example.com`);
-          sessionStorage.setItem("profileImage", found.profileImage || `https://ui-avatars.com/api/?name=${found.username}`);
+          sessionStorage.setItem(
+            "profileImage",
+            found.profileImage || `https://ui-avatars.com/api/?name=${found.username}`
+          );
           sessionStorage.setItem("mobile", found.mobile || "");
           sessionStorage.setItem("cnic", found.cnic || "");
           sessionStorage.setItem("password", found.password);
@@ -66,7 +94,7 @@ const Login = () => {
         }
       }
       setLoading(false);
-    }, 1000);
+    }, 800);
   };
 
   return (
@@ -88,41 +116,44 @@ const Login = () => {
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          autoComplete="username"
           required
         />
 
-        <div className="relative mb-2">
+        
           <input
             type={showPassword ? "text" : "password"}
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            autoComplete={role === "admin" ? "current-password" : "new-password"}
             required
           />
           <span
             className="absolute right-3 top-3 cursor-pointer text-gray-500"
             onClick={() => setShowPassword(!showPassword)}
+            title={showPassword ? "Hide password" : "Show password"}
           >
-            {showPassword ? <FaEyeSlash /> : <FaEye />}
+            {/* {showPassword ? <FaEyeSlash /> : <FaEye />} */}
           </span>
-        </div>
+        
 
-        <div className="text-right text-sm mb-4">
+        
           <button
             type="button"
             onClick={() => toast("Please contact admin to reset your password.")}
           >
             Forgot Password?
           </button>
-        </div>
+        
 
         <button type="submit" disabled={loading}>
           {loading ? "Logging in..." : "Login"}
         </button>
-        <p>For Admin: admin , admin</p>
-      <p>For Operator: Akbar, akbar</p>
+
+        <p>For Admin: <strong>admin</strong> , <strong>admin</strong></p>
+        <p>For Operator: <strong>Akbar</strong> , <strong>akbar</strong></p>
       </form>
-      
     </div>
   );
 };
