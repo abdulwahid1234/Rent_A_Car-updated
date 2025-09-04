@@ -373,3 +373,72 @@ label {
 .customers-table tbody tr:hover {
   background: #f9fbff;
 }
+/* Keep this file tiny. We rely on index.css for cards, buttons, inputs, tables & modals. */
+
+/* Table hover tone consistent with your system */
+.customers-table thead {
+  background: linear-gradient(180deg, #f7f9fc 0%, #eef3fb 100%);
+}
+.customers-table tbody tr:hover {
+  background: #f9fbff;
+}
+
+/* Row actions (reuse your global .btn styles) */
+.row-actions {
+  display: inline-flex;
+  gap: 8px;
+}
+
+/* Icon-only button sizing to feel balanced with row height */
+.btn-icon {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  font-size: 1.05rem; /* boosts Fi icons so they don’t look tiny */
+  border-radius: 10px;
+}
+
+/* Modal sizing that matches your system but slightly wider for forms */
+.customers-modal {
+  width: min(720px, 96vw);
+  max-height: 86vh;
+  display: flex;
+  flex-direction: column;
+}
+.customers-modal-sm {
+  width: min(480px, 94vw);
+}
+
+/* Grid inside the modal form (two columns at md+) */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+@media (min-width: 768px) {
+  .grid-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.gap-16 { gap: 16px; }
+.field-full { grid-column: 1 / -1; }
+
+/* Validation state (hooks into your input focus ring nicely) */
+.input.invalid,
+.input[aria-invalid="true"] {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, .15);
+}
+.error-text {
+  color: var(--danger);
+  font-size: 0.9rem;
+  margin-top: 6px;
+}
+
+/* Modal footer alignment */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 14px;
+}

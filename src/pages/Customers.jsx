@@ -15,7 +15,7 @@ const Customers = () => {
   const [customers, setCustomers] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [editingId, setEditingId] = useState(null); // null => adding
+  const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(emptyForm);
   const [errors, setErrors] = useState({});
   const [customerToDelete, setCustomerToDelete] = useState(null);
@@ -109,72 +109,87 @@ const Customers = () => {
   };
 
   return (
-    <div className="customers-page p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">Customers</h2>
-        <button onClick={openAdd} className="bg-indigo-600 text-white px-4 py-2 rounded shadow">
-          <FiUserPlus /> Add Customer
-        </button>
-      </div>
+    <div className="content">
+      {/* Top card */}
+      <div className="card">
+        <div className="section-header">
+          <h2 className="page-title">Customers</h2>
+          <button onClick={openAdd} className="btn btn-primary">
+            <FiUserPlus /> <span>Add Customer</span>
+          </button>
+        </div>
 
-      <div className="overflow-x-auto bg-white rounded shadow p-4">
-        <table className="min-w-full table-auto customers-table">
-          <thead className="bg-gray-200 text-gray-600">
-            <tr>
-              <th className="p-2 text-left">CNIC</th>
-              <th className="p-2 text-left">Name</th>
-              <th className="p-2 text-left">Mobile</th>
-              <th className="p-2 text-left">Email</th>
-              <th className="p-2 text-left">Address</th>
-              <th className="p-2 text-left">Granter</th>
-              <th className="p-2 text-left">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {customers.length === 0 ? (
+        {/* Table */}
+        <div className="table-wrap">
+          <table className="customers-table">
+            <thead>
               <tr>
-                <td className="p-4 text-center text-gray-500" colSpan="7">
-                  No customers yet. Click “Add Customer” to create one.
-                </td>
+                <th>CNIC</th>
+                <th>Name</th>
+                <th>Mobile</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Granter</th>
+                <th style={{ width: 120 }}>Actions</th>
               </tr>
-            ) : (
-              customers.map((c) => (
-                <tr key={c.id} className="border-b hover:bg-slate-50">
-                  <td className="p-2">{c.cnic}</td>
-                  <td className="p-2">{c.name}</td>
-                  <td className="p-2">{c.mobile}</td>
-                  <td className="p-2">{c.email}</td>
-                  <td className="p-2">{c.address}</td>
-                  <td className="p-2">{c.granter}</td>
-                  <td className="p-2">
-                    <div className="action-buttons">
-                      <button className="btn btn-sm btn-outline" onClick={() => openEdit(c)} title="Edit">
-                        <FiEdit2 />
-                      </button>
-                      <button className="btn btn-sm btn-danger" onClick={() => openDelete(c)} title="Delete">
-                        <FiTrash2 />
-                      </button>
-                    </div>
+            </thead>
+            <tbody>
+              {customers.length === 0 ? (
+                <tr>
+                  <td colSpan="7" style={{ textAlign: "center", padding: 16, color: "var(--text-muted)" }}>
+                    No customers yet. Click “Add Customer” to create one.
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                customers.map((c) => (
+                  <tr key={c.id}>
+                    <td className="font-medium">{c.cnic}</td>
+                    <td>{c.name}</td>
+                    <td>{c.mobile}</td>
+                    <td>{c.email}</td>
+                    <td>{c.address}</td>
+                    <td>{c.granter}</td>
+                    <td>
+                      <div className="row-actions">
+                        <button
+                          className="btn btn-outline btn-sm btn-icon"
+                          onClick={() => openEdit(c)}
+                          title="Edit"
+                          aria-label={`Edit ${c.name}`}
+                        >
+                          <FiEdit2 />
+                        </button>
+                        <button
+                          className="btn btn-destructive btn-sm btn-icon"
+                          onClick={() => openDelete(c)}
+                          title="Delete"
+                          aria-label={`Delete ${c.name}`}
+                        >
+                          <FiTrash2 />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Add/Edit Modal */}
       {showModal && (
         <div className="modal-overlay" onClick={closeModal}>
-          <div className="modal-form" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-content customers-modal" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h3>{editingId ? "Edit Customer" : "Add Customer"}</h3>
-              <button className="close" onClick={closeModal} aria-label="Close">
+              <button className="close-btn" onClick={closeModal} aria-label="Close">
                 <FiX />
               </button>
             </div>
-            <form onSubmit={saveCustomer} className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+            <form onSubmit={saveCustomer}>
+              <div className="grid-2 gap-16">
                 <div>
                   <label>CNIC *</label>
                   <input
@@ -199,6 +214,7 @@ const Customers = () => {
                   />
                   {errors.name && <div className="error-text">{errors.name}</div>}
                 </div>
+
                 <div>
                   <label>Mobile *</label>
                   <input
@@ -224,7 +240,8 @@ const Customers = () => {
                   />
                   {errors.email && <div className="error-text">{errors.email}</div>}
                 </div>
-                <div className="md:col-span-2">
+
+                <div className="field-full">
                   <label>Address</label>
                   <input
                     name="address"
@@ -234,7 +251,7 @@ const Customers = () => {
                     onChange={handleChange}
                   />
                 </div>
-                <div className="md:col-span-2">
+                <div className="field-full">
                   <label>Granter</label>
                   <input
                     name="granter"
@@ -246,11 +263,11 @@ const Customers = () => {
                 </div>
               </div>
 
-              <div className="flex justify-end gap-3 pt-2">
-                <button type="button" className="bg-gray-400 rounded shadow px-4 py-2" onClick={closeModal}>
+              <div className="modal-actions">
+                <button type="button" className="btn btn-secondary" onClick={closeModal}>
                   Cancel
                 </button>
-                <button type="submit" className="bg-indigo-600 text-white rounded shadow px-4 py-2">
+                <button type="submit" className="btn btn-primary">
                   {editingId ? "Save Changes" : "Add Customer"}
                 </button>
               </div>
@@ -262,23 +279,27 @@ const Customers = () => {
       {/* Delete Confirm Modal */}
       {showDeleteModal && (
         <div className="modal-overlay" onClick={closeDelete}>
-          <div className="modal-form modal-form--sm" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-content customers-modal-sm" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h3>Delete Customer</h3>
-              <button className="close" onClick={closeDelete} aria-label="Close">
+              <button className="close-btn" onClick={closeDelete} aria-label="Close">
                 <FiX />
               </button>
             </div>
-            <div className="confirm-copy">
+
+            <div style={{ color: "var(--text-default)" }}>
               Are you sure you want to delete{" "}
               <strong>{customerToDelete?.name || "this customer"}</strong>?
-              <div className="muted mt-2">This action cannot be undone.</div>
+              <div style={{ color: "var(--text-muted)", marginTop: 8 }}>
+                This action cannot be undone.
+              </div>
             </div>
-            <div className="flex justify-end gap-3 pt-4">
-              <button type="button" className="bg-gray-400 rounded shadow px-4 py-2" onClick={closeDelete}>
+
+            <div className="modal-actions">
+              <button type="button" className="btn btn-secondary" onClick={closeDelete}>
                 Cancel
               </button>
-              <button type="button" className="btn btn-danger" onClick={confirmDelete}>
+              <button type="button" className="btn btn-destructive" onClick={confirmDelete}>
                 <FiTrash2 /> Delete
               </button>
             </div>

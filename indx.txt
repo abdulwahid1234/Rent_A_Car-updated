@@ -1,23 +1,33 @@
-/* Sidebar — matches the Creative Tim vibe & your layout rules */
+/* ---- Sidebar – LMS style (light, rounded, soft shadows) ---- */
+:root {
+  --panel: #ffffff;
+  --border: #e5e7eb;
+  --border-strong: #e5e7eb;
+  --text-default: #0f172a;
+  --text-muted: #64748b;
+  --indigo-600: #4f46e5;
+  --focus: rgba(79,70,229,.25);
+  --shadow-sm: 0 1px 2px rgba(2,6,23,.06);
+  --shadow-md: 0 8px 24px rgba(2,6,23,.12);
+}
 
-/* Wrapper (width + fixed) already coordinated with index.css */
+/* Container */
 .custom-sidebar {
   position: fixed; inset: 0 auto 0 0;
-  width: 250px; height: 100vh;
+  width: 248px; height: 100vh;
   background: var(--panel);
   border-right: 3px solid var(--border-strong);
-  box-shadow: 4px 0 12px rgba(0,0,0,.08);
+  box-shadow: 4px 0 12px rgba(2,6,23,.04);
   display: flex; flex-direction: column;
   transition: width .22s ease;
   z-index: 1000;
 }
 .custom-sidebar.collapsed { width: 70px; }
 
-/* Top controls */
+/* Top control */
 .sidebar-top {
   display: flex; align-items: center; gap: 8px;
-  padding: 10px;
-  border-bottom: 1px solid var(--border); background: #fff;
+  padding: 10px; border-bottom: 1px solid var(--border); background: #fff;
 }
 .collapse-btn {
   background: #fff; border: 1px solid var(--border);
@@ -28,16 +38,11 @@
 }
 .collapse-btn:hover { background: #f3f4f6; color: var(--indigo-600); box-shadow: var(--shadow-md); }
 
-/* Logo */
-.sidebar-logo {
-  padding: 14px 0; text-align: center; background: #fff;
-  border-bottom: 1px solid var(--border);
-}
-.sidebar-logo-text {
-  color: var(--indigo-600); font-weight: 800; letter-spacing: .2px;
-}
+/* Logo / brand */
+.sidebar-logo { padding: 14px 0; text-align: center; background: #fff; border-bottom: 1px solid var(--border); }
+.sidebar-logo-text { color: var(--indigo-600); font-weight: 800; letter-spacing: .2px; }
 
-/* Nav */
+/* Nav list */
 .sidebar-nav {
   position: relative; flex: 1; display: flex; flex-direction: column; gap: 6px;
   padding: 12px 8px 14px; overflow-y: auto;
@@ -45,6 +50,7 @@
 
 /* Link base */
 .sidebar-link {
+  position: relative;
   display: flex; align-items: center; gap: 12px;
   padding: 10px 12px; border-radius: 12px;
   color: var(--text-default); text-decoration: none; font-weight: 700; font-size: .95rem;
@@ -59,7 +65,7 @@
 }
 .sidebar-link:hover svg { color: var(--indigo-600); }
 
-/* Active (React Router v6: we add .active in JSX) */
+/* Active state – pill + left indicator like LMS */
 .sidebar-link.active {
   background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
   color: var(--indigo-600);
@@ -67,8 +73,14 @@
   box-shadow: inset 0 0 0 1px #e5e7eb;
 }
 .sidebar-link.active svg { color: var(--indigo-600); }
+.sidebar-link .active-indicator {
+  content: ""; position: absolute; left: -8px; top: 50%; transform: translateY(-50%);
+  width: 6px; height: 22px; border-radius: 999px;
+  background: #34d399; opacity: 0; transition: opacity .18s ease;
+}
+.sidebar-link.active .active-indicator { opacity: 1; }
 
-/* Collapsible header (Registration) */
+/* Collapsible header */
 .collapsible { justify-content: space-between; background: #fff; cursor: pointer; }
 .collapsible.open { background: #f8fafc; }
 
@@ -92,7 +104,7 @@
 .custom-sidebar.collapsed .label { display: none; }
 .custom-sidebar.collapsed .sidebar-link { justify-content: center; padding: 12px; }
 
-/* Flyout submenu when collapsed */
+/* Fly-out submenu when collapsed (hover) */
 .custom-sidebar.collapsed .submenu {
   position: absolute; left: 70px; top: auto; min-width: 220px;
   background: #fff; padding: 8px; border: 1px solid var(--border);
@@ -109,7 +121,7 @@
   outline: none; box-shadow: 0 0 0 3px var(--focus);
 }
 
-/* Scrollbar (subtle) */
+/* Subtle scrollbar */
 .sidebar-nav::-webkit-scrollbar { width: 8px; }
 .sidebar-nav::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 999px; }
 .sidebar-nav::-webkit-scrollbar-thumb:hover { background: #d1d5db; }

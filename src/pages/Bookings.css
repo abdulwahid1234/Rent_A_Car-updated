@@ -291,3 +291,106 @@ button[type="button"]:hover {
     padding: 16px;
   }
 }
+
+/* Bookings — reuse global layout/components; only page-specific tweaks */
+
+/* Header row actions */
+.actions { display: flex; gap: 10px; }
+
+/* Status badge reuses global badge palette from index.css */
+.badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 9999px; font-size: .78rem; font-weight: 800; border: 1px solid transparent; }
+.badge-success { background:#ecfdf5; color:#065f46; border-color:#a7f3d0; }
+
+/* Input with icon */
+.input-with-icon { position: relative; display: flex; align-items: center; gap: 8px; }
+.left-icon { position: absolute; left: 12px; font-size: 1.05rem; opacity: .65; }
+.input-with-icon .input { padding-left: 36px; }
+
+/* Found/Not found pills (match your global status-pill palette) */
+.status-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 8px; font-size: .86rem; font-weight: 700; border: 1px solid transparent; }
+.status-pill.success { background:#ecfdf5; color:#065f46; border-color:#a7f3d0; }
+.status-pill.danger  { background:#fef2f2; color:#991b1b; border-color:#fecaca; }
+
+/* Customer preview row */
+.customer-preview { display:flex; align-items:center; justify-content:space-between; }
+.cp-name { font-weight:800; }
+.cp-sub  { color: var(--text-muted); font-size:.9rem; }
+.cp-cnic { font-weight:800; }
+
+/* Two-column form row */
+.form-row { display:grid; gap:12px; grid-template-columns: repeat(2, minmax(0,1fr)); }
+@media (max-width: 700px) { .form-row { grid-template-columns: 1fr; } }
+
+/* Modal actions */
+.modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 6px; }
+
+/* Table tweaks (global table styles already exist) */
+tbody tr:hover { background: #f8fbff; }
+/* Customer preview right cluster */
+.cp-right { display: flex; align-items: center; gap: 12px; }
+.cp-actions { display: inline-flex; gap: 8px; }
+.chip-selected {
+  margin-left: 6px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: .78rem;
+  font-weight: 800;
+  background: #eff6ff;
+  color: #1e40af;
+  border: 1px solid #bfdbfe;
+}
+
+/* Smaller buttons in that row */
+.btn-sm { padding: 6px 8px; font-size: .88rem; border-radius: 9px; }
+/* Make the found record obviously clickable */
+.customer-preview.clickable {
+  cursor: pointer;
+  text-align: left;         /* since it's a button now */
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: #fff;
+}
+.customer-preview.clickable:hover {
+  box-shadow: var(--shadow-md);
+  background: #f8fafc;
+}
+.customer-preview.clickable:active {
+  transform: translateY(0.5px);
+}
+/* Action buttons in table rows */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-icon {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.btn-icon.edit {
+  color: #2563eb;
+}
+.btn-icon.edit:hover {
+  background: #e0e7ff;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-icon.delete {
+  color: #dc2626;
+}
+.btn-icon.delete:hover {
+  background: #fee2e2;
+  box-shadow: var(--shadow-sm);
+}

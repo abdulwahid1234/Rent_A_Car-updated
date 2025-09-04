@@ -1,17 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import { Outlet } from "react-router-dom";
+import "./Layout.css"; // optional, for styling
 
 const MainLayout = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const toggleSidebar = () => setSidebarOpen((open) => !open);
-
   return (
-    <div className={`layout ${sidebarOpen ? "sidebar-open" : ""}`}>
-      <Header toggleSidebar={toggleSidebar} isSidebarOpen={sidebarOpen} />
+    <div className="layout">
+      <Sidebar isOpen={true} /> {/* Sidebar always visible */}
       <div className="body-wrapper">
-        <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+        <Header />
         <main className="content">
           <Outlet />
         </main>

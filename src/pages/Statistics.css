@@ -108,13 +108,14 @@ background: var(--bg);
 }
 
 .chart-placeholder {
-  height: 240px;
-  border: 1px dashed var(--border);
-  border-radius: var(--radius-sm);
-  display: grid;
-  place-items: center;
-  color: var(--muted);
-  background: #fff;
+    height: 240px;
+    border: 1px dashed var(--border);
+    border-radius: black;
+    display: grid;
+    place-items: center;
+    color: var(--muted);
+    background: #c8c9d7;
+
 }
 
 /* ===== Buttons (match your unified style) ===== */

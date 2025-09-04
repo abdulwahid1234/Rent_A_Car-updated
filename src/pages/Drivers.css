@@ -1,12 +1,27 @@
-/* ===== Drivers (Light Theme, unified with index.css) ===== */
+/* ===== Drivers (Light Theme, unified) ===== */
+
+:root {
+  --brand: var(--indigo, #2563eb);
+  --brand-600: var(--indigo-600, #4f46e5);
+  --ring: rgba(37, 99, 235, 0.18);
+  --danger: #dc2626;
+
+  --bg: var(--bg, #f6f7fb);
+  --panel: var(--panel, #ffffff);
+  --border: var(--border, #e5e7eb);
+  --text: var(--text-default, #111827);
+  --text-muted: var(--text-muted, #6b7280);
+
+  --shadow-sm: 0 2px 8px rgba(0,0,0,.06);
+  --shadow-md: 0 8px 24px rgba(17,24,39,.12);
+}
 
 /* Page */
 .drivers-container {
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
-  padding: 28px 12px;
-  font-family: var(--font);
+  padding: 24px 12px 32px;
   width: min(1200px, 96vw);
   margin: 0 auto;
 }
@@ -25,7 +40,7 @@
   margin-bottom: 18px;
   font-style: italic;
   text-align: center;
-  color: var(--muted);
+  color: var(--text-muted);
   font-size: 1rem;
 }
 
@@ -39,53 +54,38 @@
   margin-bottom: 20px;
 }
 
-.driver-controls input {
+/* Search with icon */
+.search-wrap {
+  position: relative;
   flex: 1;
-  min-width: 220px;
-  background: #fff;
-  border: black;
-  border-radius: 12px;
-  padding: 10px 12px;
-  font: inherit;
-  color: var(--text);
-  box-shadow: var(--shadow-sm);
-  transition: border-color 120ms, box-shadow 120ms;
+  min-width: 260px;
 }
-.driver-controls input:focus {
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  color: var(--text-muted);
+}
+.search-wrap .input {
+  width: 100%;
+  padding: 10px 12px 10px 36px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--text);
+  transition: border-color .18s ease, box-shadow .18s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,.05) inset;
+}
+.search-wrap .input:focus {
   outline: none;
   border-color: var(--brand);
   box-shadow: 0 0 0 4px var(--ring);
 }
 
-/* “+ Add Driver” button = unified .btn look via vars */
-.driver-controls button {
-  --btn-bg: var(--brand);
-  --btn-bg-hover: var(--brand-600);
-  --btn-text: #fff;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 10px 16px;
-  border-radius: 999px;
-  border: 1px solid transparent;
-  background: var(--btn-bg);
-  color: var(--btn-text);
-  font-weight: 700;
-  letter-spacing: 0.2px;
-  cursor: pointer;
-  box-shadow: var(--shadow-sm);
-  transition: background 160ms, box-shadow 160ms, transform 80ms;
-}
-.driver-controls button:hover {
-  background: var(--btn-bg-hover);
-  box-shadow: var(--shadow-md);
-}
-.driver-controls button:focus {
-  outline: none;
-  box-shadow: 0 0 0 4px var(--ring);
-}
+/* Add button */
+.add-driver-btn { border-radius: 10px; }
 
 /* Grid */
 .drivers-grid {
@@ -97,26 +97,27 @@
 
 /* Card */
 .driver-card {
-  background: #e6e6e6;
-    border: 1px solid #294989;
-    border-radius: var(--radius);
-    padding: 20px 20px;
-    text-align: center;
-    box-shadow: var(--shadow-sm);
-    transition: box-shadow 160ms, transform 80ms;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 18px 16px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 160ms, transform 80ms, border-color .18s ease;
 }
 .driver-card:hover {
   box-shadow: var(--shadow-md);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  border-color: #dbe3ff;
 }
 
 .driver-card img {
-  width: 80px;
-  height: 80px;
+  width: 86px;
+  height: 86px;
   object-fit: cover;
   border-radius: 50%;
   margin-bottom: 10px;
-  border: 3px solid #e5e7eb;
+  border: 3px solid #eef2ff;
   box-shadow: var(--shadow-sm);
 }
 
@@ -127,21 +128,11 @@
   font-weight: 800;
 }
 
-.driver-details {
-  text-align: left;
-  margin-top: 8px;
-}
-.driver-details p {
-  margin: 6px 0;
-  font-size: 0.98rem;
-  color: var(--text);
-}
-.driver-details p span:first-child {
-  font-weight: 700;
-  color: var(--muted);
-}
+.driver-details { text-align: left; margin-top: 8px; }
+.driver-details p { margin: 6px 0; font-size: 0.98rem; color: var(--text); }
+.driver-details p span:first-child { font-weight: 700; color: var(--text-muted); }
 
-/* Status badge (light variants) */
+/* Status badge */
 .status {
   display: inline-flex;
   align-items: center;
@@ -174,51 +165,113 @@
   justify-content: center;
   gap: 10px;
   margin-top: 14px;
+  flex-wrap: wrap; /* keeps buttons tidy on small widths */
 }
 
-/* Edit/Delete buttons using unified style */
-.edit-btn,
-.delete-btn {
+/* Buttons – unified look */
+.btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 14px;
-  border-radius: 12px;
-  border: 1px solid transparent;
-  font-size: 0.95rem;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 10px;
   font-weight: 700;
-  cursor: pointer;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text);
   box-shadow: var(--shadow-sm);
-  transition: background 160ms, box-shadow 160ms, transform 80ms, color 160ms;
+  transition: transform .08s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease, color .18s ease;
+  cursor: pointer;
 }
+.btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
 
-/* Edit = brand */
-.edit-btn {
+.btn-primary {
   background: var(--brand);
+  border-color: var(--brand-600);
   color: #fff;
 }
-.edit-btn:hover { background: var(--brand-600); box-shadow: var(--shadow-md); }
-.edit-btn:focus { outline: none; box-shadow: 0 0 0 4px var(--ring); }
+.btn-primary:hover { background: var(--brand-600); }
 
-/* Delete = destructive */
-.delete-btn {
+.btn-outline {
+  background: #fff;
+  color: var(--text);
+}
+.btn-outline:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #1e3a8a;
+}
+
+.btn-destructive {
   background: var(--danger);
+  border-color: #b91c1c;
   color: #fff;
 }
-.delete-btn:hover { background: #c93a3a; box-shadow: var(--shadow-md); }
-.delete-btn:focus { outline: none; box-shadow: 0 0 0 4px var(--ring); }
+.btn-destructive:hover { background: #b91c1c; }
+
+/* ==== Bigger, clearer icon buttons ==== */
+.btn-icon {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 10px;
+  font-size: 1.25rem;     /* larger icons */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-icon svg { width: 1.2em; height: 1.2em; }
+
+/* Color-coded variants for icon buttons */
+.btn-icon.edit {
+  color: #2563eb;
+  border-color: #bfdbfe;
+  background: #eff6ff;
+}
+.btn-icon.edit:hover {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.btn-icon.danger {
+  color: #dc2626;
+  border-color: #fecaca;
+  background: #fff5f5;
+}
+.btn-icon.danger:hover {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* Empty state */
+.empty-state {
+  margin-top: 18px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  color: var(--text-muted);
+  text-align: center;
+}
+.empty-state::before {
+  content: "🚗";
+  display: block;
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
 
 /* Responsive */
 @media (max-width: 768px) {
   .drivers-container { padding: 16px 8px; }
   .driver-controls { flex-direction: column; align-items: stretch; }
-  .driver-controls button { width: 100%; }
+  .add-driver-btn { width: 100%; }
   .drivers-grid { grid-template-columns: 1fr; }
-  .driver-actions { flex-direction: column; gap: 8px; }
+  .driver-actions { gap: 8px; }
 }
 @media (max-width: 480px) {
   .driver-card { padding: 12px; }
-  .driver-card img { width: 60px; height: 60px; }
+  .driver-card img { width: 70px; height: 70px; }
   .driver-card h3 { font-size: 1.05rem; }
   .driver-details p { font-size: 0.92rem; }
   .status { font-size: 0.88rem; padding: 3px 10px; }
